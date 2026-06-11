@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Upload Your Design — Instant Quote — FORMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0907; --bg2:#13100b; --bg3:#1a1510; --panel:#100d09;
+  --ink:#ede4d7; --muted:#9b8c79; --faint:#5e5446;
+  --amber:#d9a468; --amber-deep:#a8723c; --ok:#7ddb8a;
+  --line:rgba(217,164,104,.14); --line2:rgba(217,164,104,.3);
+  --serif:'Fraunces',serif; --sans:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--amber);color:#0b0907}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(217,164,104,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(217,164,104,.04) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse 80% 70% at 50% 30%,black,transparent 80%)}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;background:rgba(11,9,7,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--serif);font-size:1.2rem;letter-spacing:.32em;color:var(--ink);text-decoration:none}
+.logo em{color:var(--amber);font-style:normal}
+nav .title{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--faint);text-transform:uppercase}
+nav .title b{color:var(--amber);font-weight:400}
+nav .links{display:flex;gap:32px}
+nav .links a{color:var(--muted);text-decoration:none;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+nav .links a:hover{color:var(--ink)}
+@media(max-width:900px){nav .links{display:none}}
+
+.wrap{max-width:1240px;margin:0 auto;padding:150px 40px 120px;position:relative}
+.head{text-align:center;max-width:720px;margin:0 auto 70px}
+.kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.36em;color:var(--amber);text-transform:uppercase;margin-bottom:28px}
+.head h1{font-family:var(--serif);font-weight:300;font-size:clamp(2.6rem,5.6vw,4.6rem);line-height:1.08}
+.head h1 em{font-style:italic;color:var(--amber)}
+.head p{color:var(--muted);line-height:1.95;margin-top:26px;font-size:.97rem}
+.head p b{color:var(--ink);font-weight:400}
+
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:34px;align-items:start}
+@media(max-width:980px){.grid{grid-template-columns:1fr}}
+
+/* ===== dropzone ===== */
+.drop-card{border:1px solid var(--line);background:var(--panel);border-radius:6px;overflow:hidden}
+.card-h{padding:16px 24px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;color:var(--amber);text-transform:uppercase;display:flex;justify-content:space-between}
+.card-h .st{color:var(--faint)}
+#zone{margin:24px;border:1.5px dashed var(--line2);border-radius:6px;min-height:330px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px;cursor:pointer;transition:all .35s;position:relative}
+#zone:hover,#zone.over{border-color:var(--amber);background:rgba(217,164,104,.05);box-shadow:inset 0 0 60px rgba(217,164,104,.06)}
+#zone .glyph{margin-bottom:28px;animation:hover 4s ease-in-out infinite}
+@keyframes hover{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+#zone h3{font-family:var(--serif);font-weight:300;font-size:1.7rem}
+#zone h3 em{font-style:italic;color:var(--amber)}
+#zone p{color:var(--muted);font-size:.84rem;margin-top:14px;line-height:1.9}
+#zone .formats{display:flex;gap:10px;margin-top:26px}
+#zone .formats span{font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;border:1px solid var(--line);color:var(--muted);padding:7px 16px;border-radius:100px}
+#fileinp{display:none}
+.sample-row{padding:0 24px 24px;display:flex;gap:12px;align-items:center}
+.sample-row button{font-family:var(--mono);font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;background:transparent;color:var(--amber);border:1px solid var(--line2);padding:12px 22px;border-radius:100px;cursor:pointer;transition:all .3s}
+.sample-row button:hover{background:var(--amber);color:var(--bg)}
+.sample-row .or{font-family:var(--mono);font-size:.6rem;color:var(--faint);letter-spacing:.2em}
+
+/* analysis log */
+.log{margin:0 24px 24px;background:#0a0805;border:1px solid var(--line);border-radius:4px;font-family:var(--mono);font-size:.74rem;line-height:2.2;padding:18px 22px;min-height:184px;color:var(--muted);display:none}
+.log.show{display:block}
+.log .ln{opacity:0;transform:translateY(6px);transition:all .4s}
+.log .ln.in{opacity:1;transform:none}
+.log .ok{color:var(--ok)}
+.log .em{color:var(--amber)}
+.log .dim{color:var(--faint)}
+
+/* ===== results ===== */
+.result-card{border:1px solid var(--line);background:var(--panel);border-radius:6px;overflow:hidden;position:sticky;top:96px}
+.metrics{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.metric{background:var(--panel);padding:26px 24px}
+.metric .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.24em;color:var(--faint);text-transform:uppercase}
+.metric .v{font-family:var(--serif);font-size:1.7rem;font-weight:300;margin-top:10px;color:var(--ink)}
+.metric .v small{font-size:.9rem;color:var(--muted)}
+.controls{padding:24px;border-top:1px solid var(--line);display:grid;gap:18px}
+.ctl label{font-family:var(--mono);font-size:.6rem;letter-spacing:.24em;color:var(--faint);text-transform:uppercase;display:block;margin-bottom:10px}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.seg.three{grid-template-columns:repeat(3,1fr)}
+.seg button{font-family:var(--sans);font-size:.74rem;letter-spacing:.04em;background:var(--bg2);color:var(--muted);border:1px solid var(--line);padding:11px 6px;border-radius:4px;cursor:pointer;transition:all .25s}
+.seg button.on{color:var(--bg);background:var(--amber);border-color:var(--amber);font-weight:500}
+.qty{display:flex;align-items:center;gap:0;border:1px solid var(--line);border-radius:4px;width:max-content;overflow:hidden}
+.qty button{width:42px;height:40px;background:var(--bg2);border:none;color:var(--amber);font-size:1.1rem;cursor:pointer}
+.qty span{width:64px;text-align:center;font-family:var(--mono);font-size:.9rem}
+.quote-foot{padding:24px;border-top:1px solid var(--line);background:rgba(217,164,104,.05)}
+.q-row{display:flex;justify-content:space-between;font-size:.8rem;padding:6px 0}
+.q-row .k{color:var(--muted)}
+.q-row .v{font-family:var(--mono)}
+.q-total{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;padding-top:18px;border-top:1px dashed var(--line2)}
+.q-total .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+.q-total .v{font-family:var(--serif);font-size:2.3rem;font-weight:300;color:var(--amber)}
+.btn-solid{display:block;width:calc(100% - 48px);margin:0 24px 24px;text-align:center;background:var(--amber);color:#0b0907;text-decoration:none;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:18px;border-radius:100px;transition:all .4s;font-weight:500;border:none;cursor:pointer;font-family:var(--sans)}
+.btn-solid:hover{box-shadow:0 0 48px rgba(217,164,104,.4)}
+.btn-solid:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.empty-note{padding:40px 24px;text-align:center;color:var(--faint);font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;line-height:2.4;text-transform:uppercase}
+
+/* trust strip */
+.trust{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:60px}
+.trust div{background:var(--bg);padding:30px 28px}
+.trust .t{font-family:var(--serif);font-size:1.1rem;margin-bottom:10px}
+.trust p{color:var(--muted);font-size:.8rem;line-height:1.9}
+@media(max-width:900px){.trust{grid-template-columns:1fr}}
+
+.mock-switch{position:fixed;bottom:20px;right:20px;z-index:150;background:rgba(15,12,9,.92);backdrop-filter:blur(12px);border:1px solid rgba(217,164,104,.25);border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:10px;font-family:var(--mono)}
+.mock-switch span{font-size:.56rem;letter-spacing:.22em;color:#7a6c58;text-transform:uppercase;margin-right:2px}
+.mock-switch a{color:#9b8c79;text-decoration:none;font-size:.66rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s}
+.mock-switch a:hover,.mock-switch a.on{color:#0b0907;background:#d9a468}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">FORM<em>A</em></a>
+  <span class="title">CUSTOM MANUFACTURING — <b>INSTANT QUOTE ENGINE</b></span>
+  <div class="links">
+    <a href="index.html#collections">Collections</a>
+    <a href="product.html">Objects</a>
+    <a href="configurator.html">Atelier</a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">Upload Your Design</div>
+    <h1>Your file. Our machines.<br>A quote in <em>seconds.</em></h1>
+    <p>Drop an <b>STL</b> or <b>3MF</b> and the engine parses the mesh <b>right here in your browser</b> — true volume, weight, and print time computed from the actual geometry. No emails. No waiting. No file leaves your machine until you order.</p>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: upload + log -->
+    <div class="drop-card">
+      <div class="card-h"><span>01 — Geometry intake</span><span class="st" id="state">awaiting file</span></div>
+      <div id="zone">
+        <div class="glyph">
+          <svg width="86" height="86" viewBox="0 0 86 86" fill="none">
+            <path d="M43 8 L74 26 L74 60 L43 78 L12 60 L12 26 Z" stroke="#d9a468" stroke-width="1.4"/>
+            <path d="M43 8 L43 43 L74 26 M43 43 L12 26 M43 43 L43 78" stroke="#d9a468" stroke-width="1" opacity=".5"/>
+            <path d="M43 30 L43 54 M35 46 L43 54 L51 46" stroke="#d9a468" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Drop your <em>mesh</em> here</h3>
+        <p>or click to browse — analyzed locally, instantly<br>max 100 MB · watertight meshes quote best</p>
+        <div class="formats"><span>.STL</span><span>.3MF</span><span>.STEP soon</span></div>
+        <input type="file" id="fileinp" accept=".stl,.3mf">
+      </div>
+      <div class="sample-row">
+        <span class="or">No file handy?</span>
+        <button id="sample">Analyze sample part — meridian_lite.stl</button>
+      </div>
+      <div class="log" id="log"></div>
+    </div>
+
+    <!-- RIGHT: results -->
+    <div class="result-card">
+      <div class="card-h"><span>02 — Analysis &amp; quote</span><span class="st" id="state2">idle</span></div>
+      <div id="empty" class="empty-note">— quote engine standing by —<br>metrics appear the moment a mesh lands</div>
+      <div id="results" style="display:none">
+        <div class="metrics">
+          <div class="metric"><div class="k">Model volume</div><div class="v" id="rVol">—</div></div>
+          <div class="metric"><div class="k">Est. weight</div><div class="v" id="rWeight">—</div></div>
+          <div class="metric"><div class="k">Bounding box</div><div class="v" id="rBox" style="font-size:1.05rem;line-height:1.6">—</div></div>
+          <div class="metric"><div class="k">Print time</div><div class="v" id="rTime">—</div></div>
+          <div class="metric"><div class="k">Triangles</div><div class="v" id="rTris">—</div></div>
+          <div class="metric"><div class="k">Filament cost</div><div class="v" id="rMat">—</div></div>
+        </div>
+        <div class="controls">
+          <div class="ctl"><label>Material</label>
+            <div class="seg" id="mats">
+              <button class="on" data-kg="1200" data-den="1.24">PLA</button>
+              <button data-kg="1100" data-den="1.27">PETG</button>
+              <button data-kg="1500" data-den="1.24">Silk</button>
+              <button data-kg="2600" data-den="1.21">TPU</button>
+            </div>
+          </div>
+          <div class="ctl"><label>Quality</label>
+            <div class="seg three" id="quals">
+              <button data-q="0.28" >Draft 0.28</button>
+              <button class="on" data-q="0.16">Fine 0.16</button>
+              <button data-q="0.08">Ultra 0.08</button>
+            </div>
+          </div>
+          <div class="ctl"><label>Quantity</label>
+            <div class="qty">
+              <button id="qminus">−</button><span id="qval">1</span><button id="qplus">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="quote-foot">
+          <div class="q-row"><span class="k">Material + machine time</span><span class="v" id="qBase">—</span></div>
+          <div class="q-row"><span class="k">Handling, QC &amp; packaging</span><span class="v" id="qHandle">—</span></div>
+          <div class="q-row"><span class="k">Volume discount</span><span class="v" id="qDisc">—</span></div>
+          <div class="q-total"><span class="k">Instant quote · incl. GST</span><span class="v" id="qTotal">—</span></div>
+        </div>
+      </div>
+      <button class="btn-solid" id="order" disabled>Proceed to order</button>
+    </div>
+  </div>
+
+  <div class="trust">
+    <div><div class="t">Engineering-grade analysis</div><p>Volume computed by signed-tetrahedron integration over every triangle in your mesh — the same math your slicer uses, not a guess from file size.</p></div>
+    <div><div class="t">Private by architecture</div><p>Parsing happens in your browser. Your design is uploaded only when you place the order — and deleted after your parts ship.</p></div>
+    <div><div class="t">A maker on the other end</div><p>Every quoted job is reviewed by the designer who runs the machines. Tricky overhangs, tolerances, material doubts — you'll hear from a human.</p></div>
+  </div>
+</div>
+
+<div class="mock-switch">
+  <span>Mockups</span>
+  <a href="index.html" title="Home">H</a>
+  <a href="collection-minimalist.html" title="Minimalist">1</a>
+  <a href="collection-cozy.html" title="Cozy House">2</a>
+  <a href="collection-cyberpunk.html" title="Cyberpunk">3</a>
+  <a href="collection-organic.html" title="Organic">4</a>
+  <a href="product.html" title="Product">P</a>
+  <a href="configurator.html" title="Configurator">C</a>
+  <a class="on" href="quote.html" title="Quote">Q</a>
+</div>
+
+<script>
+/* ============ real STL analysis (binary + ascii) ============ */
+const zone=document.getElementById('zone'),inp=document.getElementById('fileinp'),log=document.getElementById('log');
+const state=document.getElementById('state'),state2=document.getElementById('state2');
+let mesh=null; // {volCM3, tris, box:[x,y,z]}
+let mat={kg:1200,den:1.24}, qual=0.16, qty=1;
+
+zone.onclick=()=>inp.click();
+['dragover','dragenter'].forEach(ev=>zone.addEventListener(ev,e=>{e.preventDefault();zone.classList.add('over')}));
+['dragleave','drop'].forEach(ev=>zone.addEventListener(ev,e=>{e.preventDefault();zone.classList.remove('over')}));
+zone.addEventListener('drop',e=>{const f=e.dataTransfer.files[0];if(f)handleFile(f)});
+inp.onchange=()=>{if(inp.files[0])handleFile(inp.files[0])};
+
+function logLines(lines,done){
+  log.classList.add('show');log.innerHTML='';
+  let i=0;
+  (function next(){
+    if(i>=lines.length){done&&done();return}
+    const d=document.createElement('div');d.className='ln';d.innerHTML=lines[i++];
+    log.appendChild(d);requestAnimationFrame(()=>d.classList.add('in'));
+    setTimeout(next,260);
+  })();
+}
+
+function parseSTL(buf){
+  const dv=new DataView(buf);
+  // ascii?
+  const head=new TextDecoder().decode(buf.slice(0,80)).trim().toLowerCase();
+  const looksAscii=head.startsWith('solid')&&new TextDecoder().decode(buf.slice(0,Math.min(buf.byteLength,4000))).includes('facet');
+  let vol=0,tris=0,min=[1e9,1e9,1e9],max=[-1e9,-1e9,-1e9];
+  function acc(ax,ay,az,bx,by,bz,cx,cy,cz){
+    vol+=(ax*(by*cz-bz*cy)+ay*(bz*cx-bx*cz)+az*(bx*cy-by*cx))/6;
+    for(const[x,y,z]of[[ax,ay,az],[bx,by,bz],[cx,cy,cz]]){
+      if(x<min[0])min[0]=x;if(y<min[1])min[1]=y;if(z<min[2])min[2]=z;
+      if(x>max[0])max[0]=x;if(y>max[1])max[1]=y;if(z>max[2])max[2]=z;
+    }
+    tris++;
+  }
+  if(looksAscii){
+    const txt=new TextDecoder().decode(buf);
+    const re=/vertex\s+([-\d.eE+]+)\s+([-\d.eE+]+)\s+([-\d.eE+]+)/g;
+    let m,v=[];
+    while((m=re.exec(txt))){v.push(+m[1],+m[2],+m[3]);
+      if(v.length===9){acc(...v);v=[]}}
+  }else{
+    const n=dv.getUint32(80,true);
+    let off=84;
+    for(let i=0;i<n&&off+50<=buf.byteLength;i++){
+      acc(dv.getFloat32(off+12,true),dv.getFloat32(off+16,true),dv.getFloat32(off+20,true),
+          dv.getFloat32(off+24,true),dv.getFloat32(off+28,true),dv.getFloat32(off+32,true),
+          dv.getFloat32(off+36,true),dv.getFloat32(off+40,true),dv.getFloat32(off+44,true));
+      off+=50;
+    }
+  }
+  return{volCM3:Math.abs(vol)/1000,tris,box:[max[0]-min[0],max[1]-min[1],max[2]-min[2]]};
+}
+
+function handleFile(f){
+  state.textContent='reading '+f.name.slice(0,22);
+  state2.textContent='parsing';
+  const isSTL=/\.stl$/i.test(f.name);
+  const reader=new FileReader();
+  reader.onload=()=>{
+    let m;
+    if(isSTL){try{m=parseSTL(reader.result)}catch(e){m=null}}
+    if(!m||!isFinite(m.volCM3)||m.tris===0){
+      // 3MF or unparseable: estimate from size (mock fallback)
+      m={volCM3:Math.max(8,f.size/45000),tris:Math.round(f.size/50),box:[80,80,100],est:true};
+    }
+    runAnalysis(f.name,m);
+  };
+  reader.readAsArrayBuffer(f);
+}
+
+document.getElementById('sample').onclick=()=>{
+  runAnalysis('meridian_lite.stl',{volCM3:128.4,tris:28996,box:[116,116,240]});
+};
+
+function runAnalysis(name,m){
+  state.textContent=name.slice(0,26);
+  logLines([
+    `<span class="dim">$</span> forma-engine ingest <span class="em">${name}</span>`,
+    `parsing mesh… <span class="ok">✓ ${m.tris.toLocaleString()} triangles</span>`,
+    `bounding box… <span class="ok">✓ ${m.box.map(v=>v.toFixed(0)).join(' × ')} mm</span>`,
+    `signed volume integration… <span class="ok">✓ ${m.volCM3.toFixed(1)} cm³${m.est?' (estimated)':''}</span>`,
+    `slicer heuristics @ ${qual} mm… <span class="ok">✓ ready</span>`,
+    `<span class="em">quote generated — see panel ⟶</span>`
+  ],()=>{
+    mesh=m;state2.textContent='quote ready';
+    document.getElementById('empty').style.display='none';
+    document.getElementById('results').style.display='block';
+    document.getElementById('order').disabled=false;
+    refresh();
+  });
+}
+
+function refresh(){
+  if(!mesh)return;
+  // solid model → printed part: shell+infill ≈ 38% of solid volume
+  const printVol=mesh.volCM3*.38;
+  const grams=printVol*mat.den;
+  const baseRate=22*(0.16/qual); // g/h scaled by layer height
+  const hours=grams/Math.max(6,baseRate);
+  const filament=grams/1000*mat.kg;
+  const machine=hours*16;
+  const handling=40+20+25; // handling+post+packaging per unit
+  const unitCogs=(filament+machine+handling)*1.15;
+  const unit=Math.max(unitCogs*2.2,199);
+  const disc=qty>=10?.15:qty>=5?.08:0;
+  const total=Math.round(unit*qty*(1-disc)/10)*10-1;
+  document.getElementById('rVol').textContent=mesh.volCM3>=100?Math.round(mesh.volCM3)+' cm³':mesh.volCM3.toFixed(1)+' cm³';
+  document.getElementById('rWeight').innerHTML=Math.round(grams)+' g <small>@ '+(printVol/mesh.volCM3*100|0)+'% density</small>';
+  document.getElementById('rBox').textContent=mesh.box.map(v=>v.toFixed(0)).join(' × ')+' mm';
+  const Hh=Math.floor(hours),Mm=Math.round((hours-Hh)*60);
+  document.getElementById('rTime').textContent=`${Hh} h ${String(Mm).padStart(2,'0')} m`;
+  document.getElementById('rTris').textContent=mesh.tris.toLocaleString();
+  document.getElementById('rMat').textContent='₹ '+Math.round(filament);
+  document.getElementById('qBase').textContent='₹ '+Math.round((filament+machine)*qty).toLocaleString('en-IN');
+  document.getElementById('qHandle').textContent='₹ '+Math.round(handling*1.15*qty).toLocaleString('en-IN');
+  document.getElementById('qDisc').textContent=disc?`− ${disc*100|0}%`:'—';
+  document.getElementById('qTotal').textContent='₹ '+Math.max(total,199).toLocaleString('en-IN');
+}
+
+document.querySelectorAll('#mats button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#mats button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');mat={kg:+b.dataset.kg,den:+b.dataset.den};refresh();
+});
+document.querySelectorAll('#quals button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('#quals button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');qual=+b.dataset.q;refresh();
+});
+document.getElementById('qminus').onclick=()=>{qty=Math.max(1,qty-1);document.getElementById('qval').textContent=qty;refresh()};
+document.getElementById('qplus').onclick=()=>{qty=Math.min(500,qty+1);document.getElementById('qval').textContent=qty;refresh()};
+</script>
+</body>
+</html>

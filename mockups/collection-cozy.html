@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEARTH — Cozy House Collection — FORMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Source+Serif+4:ital,wght@0,300;1,300&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#160d06; --night2:#1f1409; --night3:#2a1b0d;
+  --cream:#f6e3c5; --honey:#e8b878; --ember:#d98c3f; --candle:#ffb45e;
+  --mut:#b08f68; --dim:#6e5739;
+  --line:rgba(232,184,120,.16);
+  --serif:'Fraunces',serif; --body:'Source Serif 4',serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--night);color:var(--cream);font-family:var(--body);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--honey);color:var(--night)}
+
+.reveal{opacity:0;transform:translateY(34px);transition:opacity 1.6s ease,transform 1.6s cubic-bezier(.23,1,.32,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.2s}.reveal.d2{transition-delay:.4s}.reveal.d3{transition-delay:.6s}
+
+#embers{position:fixed;inset:0;pointer-events:none;z-index:1}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:30px 52px;background:linear-gradient(180deg,rgba(22,13,6,.85),transparent)}
+.logo{font-family:var(--serif);font-size:1.25rem;letter-spacing:.32em;color:var(--cream);text-decoration:none}
+.logo em{color:var(--honey);font-style:normal}
+nav .links{display:flex;gap:42px}
+nav .links a{color:var(--mut);text-decoration:none;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;transition:color .5s,text-shadow .5s}
+nav .links a:hover{color:var(--candle);text-shadow:0 0 18px rgba(255,180,94,.6)}
+nav .room-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;color:var(--dim)}
+@media(max-width:900px){nav .links{display:none}}
+
+/* hero — a lit window on a winter night */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;padding:120px 52px 80px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 46% 60% at 72% 58%,rgba(255,150,60,.20),transparent 65%),
+  radial-gradient(ellipse 80% 90% at 50% 120%,rgba(120,70,25,.18),transparent 70%)}
+.hero-light{position:absolute;right:14%;top:48%;width:480px;height:480px;transform:translateY(-50%);background:radial-gradient(circle,rgba(255,180,94,.30),rgba(255,140,50,.08) 50%,transparent 70%);filter:blur(14px);animation:heroFlick 5s ease-in-out infinite}
+@keyframes heroFlick{0%,100%{opacity:.85;transform:translateY(-50%) scale(1)}22%{opacity:1}48%{opacity:.72;transform:translateY(-50%) scale(.97)}74%{opacity:.95}}
+.hero-copy{position:relative;z-index:3;max-width:640px}
+.kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.42em;color:var(--ember);text-transform:uppercase;margin-bottom:36px;display:flex;align-items:center;gap:16px}
+.kicker::before{content:'';width:44px;height:1px;background:var(--ember)}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,6.6vw,5.8rem);line-height:1.06}
+.hero h1 em{font-style:italic;color:var(--honey)}
+.hero .sub{margin-top:36px;color:var(--mut);font-size:1.04rem;line-height:2;max-width:460px}
+.hero .lamp-stage{position:absolute;right:10%;top:50%;transform:translateY(-46%);z-index:2;text-align:center}
+.lamp-cap{margin-top:24px;font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:var(--dim);text-transform:uppercase;line-height:2}
+@media(max-width:1000px){.hero .lamp-stage{display:none}}
+.glowpulse{animation:lampGlow 5s ease-in-out infinite}
+@keyframes lampGlow{0%,100%{opacity:.92}30%{opacity:1}55%{opacity:.8}80%{opacity:.97}}
+
+/* intro */
+.intro{max-width:780px;margin:0 auto;padding:20vh 32px;text-align:center;position:relative;z-index:2}
+.sec{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:var(--ember);text-transform:uppercase;margin-bottom:48px}
+.intro p.big{font-family:var(--serif);font-size:clamp(1.5rem,2.7vw,2.25rem);line-height:1.7;font-weight:300}
+.intro p.big em{font-style:italic;color:var(--honey)}
+
+/* mood strip */
+.mood{max-width:1180px;margin:0 auto;padding:0 52px 18vh;position:relative;z-index:2}
+.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.mcard{height:230px;border-radius:4px;position:relative;overflow:hidden;border:1px solid var(--line)}
+.mcard .cap{position:absolute;bottom:14px;left:16px;font-family:var(--mono);font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(246,227,197,.6);z-index:2}
+.mc1{background:radial-gradient(circle at 50% 65%,#5a3210,#241407 75%)}
+.mc1::after{content:'';position:absolute;left:50%;top:58%;transform:translate(-50%,-50%);width:90px;height:90px;background:radial-gradient(circle,rgba(255,190,100,.8),rgba(255,140,50,.15) 55%,transparent 75%);filter:blur(4px);animation:heroFlick 4s ease-in-out infinite}
+.mc2{background:linear-gradient(160deg,#3a2613,#1c1208)}
+.mc2::after{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 26px,rgba(232,184,120,.07) 26px 28px),repeating-linear-gradient(90deg,transparent 0 9px,rgba(0,0,0,.16) 9px 11px)}
+.mc3{background:radial-gradient(ellipse at 30% 30%,#4d2f12,#1d1106 80%)}
+.mc3::after{content:'';position:absolute;right:-20px;bottom:-20px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#8a5a28,#3a2410);box-shadow:inset -10px -10px 30px rgba(0,0,0,.5)}
+.mc4{background:linear-gradient(180deg,#241608,#160d06)}
+.mc4::after{content:'';position:absolute;inset:14px;border:1px solid rgba(232,184,120,.25);border-radius:2px;background:radial-gradient(ellipse 70% 50% at 50% 100%,rgba(255,160,70,.22),transparent 70%)}
+@media(max-width:860px){.mood-grid{grid-template-columns:1fr 1fr}}
+
+/* gallery — lit alcoves */
+.gallery{max-width:1240px;margin:0 auto;padding:0 52px 8vh;position:relative;z-index:2}
+.alcove{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;padding:12vh 0;border-top:1px solid var(--line)}
+.alcove:nth-child(even) .a-visual{order:2}
+.a-visual{height:60vh;min-height:430px;border-radius:6px;position:relative;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 75% 70% at 50% 62%,#3a2310,#190f06 78%);border:1px solid var(--line);overflow:hidden}
+.a-visual .halo{position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,180,94,.34),rgba(255,140,50,.08) 55%,transparent 72%);filter:blur(10px);animation:heroFlick 4.6s ease-in-out infinite}
+.a-visual svg{position:relative;z-index:2;filter:drop-shadow(0 30px 40px rgba(0,0,0,.55))}
+.a-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.38em;color:var(--ember);text-transform:uppercase}
+.alcove h3{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,3.4vw,3rem);margin:24px 0;color:var(--cream)}
+.alcove h3 em{font-style:italic;color:var(--honey)}
+.alcove p{color:var(--mut);line-height:2.05;font-size:.95rem;max-width:420px}
+.alcove .meta{display:flex;gap:40px;margin-top:40px}
+.alcove .meta div{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--dim);text-transform:uppercase;line-height:2.2}
+.alcove .meta b{display:block;color:var(--cream);font-weight:400;font-size:.86rem;letter-spacing:.04em;font-family:var(--body)}
+.alcove .view{display:inline-block;margin-top:44px;color:var(--honey);text-decoration:none;font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;border:1px solid rgba(232,184,120,.4);border-radius:100px;padding:14px 30px;transition:all .5s}
+.alcove .view:hover{background:var(--honey);color:var(--night);box-shadow:0 0 36px rgba(232,184,120,.4)}
+@media(max-width:900px){.alcove{grid-template-columns:1fr}.alcove:nth-child(even) .a-visual{order:0}}
+
+/* process — the making, by firelight */
+.process{background:var(--night2);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:18vh 52px;position:relative;z-index:2}
+.process-in{max-width:1180px;margin:0 auto}
+.process h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,4vw,3.4rem);max-width:720px;line-height:1.25}
+.process h2 em{font-style:italic;color:var(--honey)}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);margin-top:9vh}
+.stepc{background:var(--night2);padding:48px 38px;transition:background .6s}
+.stepc:hover{background:var(--night3)}
+.stepc .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.3em;color:var(--ember);text-transform:uppercase}
+.stepc h4{font-family:var(--serif);font-weight:400;font-size:1.45rem;margin:20px 0 14px}
+.stepc p{color:var(--mut);font-size:.86rem;line-height:1.95}
+@media(max-width:900px){.steps{grid-template-columns:1fr}}
+
+/* light test interlude */
+.lighttest{max-width:780px;margin:0 auto;padding:18vh 32px;text-align:center;position:relative;z-index:2}
+.lighttest .demo{display:flex;justify-content:center;gap:54px;margin-top:9vh;flex-wrap:wrap}
+.bulb{width:120px;height:120px;border-radius:50%;position:relative;margin-bottom:22px}
+.b1{background:radial-gradient(circle,rgba(255,210,140,.95),rgba(255,160,70,.2) 55%,transparent 75%)}
+.b2{background:radial-gradient(circle,rgba(255,180,94,.9),rgba(230,120,40,.18) 55%,transparent 75%)}
+.b3{background:radial-gradient(circle,rgba(255,140,60,.85),rgba(200,90,30,.16) 55%,transparent 75%)}
+.lighttest .lbl{font-family:var(--mono);font-size:.58rem;letter-spacing:.26em;color:var(--dim);text-transform:uppercase;line-height:2}
+.lighttest p.big{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.75}
+.lighttest p.big em{font-style:italic;color:var(--honey)}
+
+/* next room */
+.next{display:block;text-decoration:none;background:linear-gradient(120deg,#0a0514,#1c0b38);padding:15vh 52px;text-align:center;position:relative;overflow:hidden}
+.next::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(176,38,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(176,38,255,.13) 1px,transparent 1px);background-size:44px 44px;transform:perspective(420px) rotateX(50deg) translateY(34%);mask-image:linear-gradient(180deg,transparent 25%,black)}
+.next .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:#00e8ff;text-transform:uppercase;position:relative}
+.next h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,5vw,4.4rem);color:#e9e6ff;margin-top:26px;position:relative}
+.next .go{display:inline-block;margin-top:34px;color:#00e8ff;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;position:relative}
+
+footer{padding:58px 52px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--dim);text-transform:uppercase;position:relative;z-index:2}
+footer a{color:var(--mut);text-decoration:none}
+
+.mock-switch{position:fixed;bottom:20px;right:20px;z-index:150;background:rgba(31,20,9,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:10px;font-family:var(--mono)}
+.mock-switch span{font-size:.56rem;letter-spacing:.22em;color:var(--dim);text-transform:uppercase;margin-right:2px}
+.mock-switch a{color:var(--mut);text-decoration:none;font-size:.66rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s}
+.mock-switch a:hover,.mock-switch a.on{color:var(--night);background:var(--honey)}
+</style>
+</head>
+<body>
+
+<canvas id="embers"></canvas>
+
+<nav>
+  <a class="logo" href="index.html">FORM<em>A</em></a>
+  <div class="links">
+    <a href="index.html#collections">Collections</a>
+    <a href="product.html">Objects</a>
+    <a href="configurator.html">Atelier</a>
+    <a href="quote.html">Custom</a>
+  </div>
+  <span class="room-tag">ROOM 02 / 04</span>
+</nav>
+
+<header class="hero">
+  <div class="hero-light"></div>
+  <div class="hero-copy">
+    <div class="kicker">The Cozy House Collection</div>
+    <h1>Hearth.<br>Light for the <em>longest evenings.</em></h1>
+    <p class="sub">Lamps, lanterns and tealight keepers that turn a room into a refuge. Designed for the hour when the day finally exhales — printed in warm translucents that hold the flame like a memory.</p>
+  </div>
+  <div class="lamp-stage">
+    <svg class="glowpulse" width="240" height="320" viewBox="0 0 240 320" fill="none">
+      <defs>
+        <radialGradient id="lampcore" cx=".5" cy=".55" r=".62">
+          <stop offset="0" stop-color="#ffd596"/><stop offset=".55" stop-color="#e8913f"/><stop offset="1" stop-color="#5a3210"/>
+        </radialGradient>
+      </defs>
+      <path d="M120 26 C176 26 206 86 206 158 C206 238 170 290 120 290 C70 290 34 238 34 158 C34 86 64 26 120 26 Z" fill="url(#lampcore)"/>
+      <g stroke="#160d06" stroke-width="5" opacity=".85">
+        <path d="M120 26 C84 80 70 180 92 288"/><path d="M120 26 C156 80 170 180 148 288"/>
+        <path d="M96 34 C56 110 52 210 116 290"/><path d="M144 34 C184 110 188 210 124 290"/>
+        <path d="M76 52 C42 130 46 230 140 286"/><path d="M164 52 C198 130 194 230 100 286"/>
+      </g>
+      <g stroke="#160d06" stroke-width="4" opacity=".7">
+        <path d="M38 130 Q120 168 202 130"/><path d="M34 178 Q120 214 206 178"/><path d="M44 226 Q120 258 196 226"/>
+      </g>
+      <ellipse cx="120" cy="296" rx="44" ry="9" fill="#241608"/>
+      <rect x="106" y="292" width="28" height="14" rx="4" fill="#2e1d0c"/>
+    </svg>
+    <div class="lamp-cap">“Ambra” lantern — lit<br>PLA Translucent Amber · warm-white E14</div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="sec reveal">The Intention</div>
+  <p class="big reveal d1">This collection is about the feeling of <em>coming home in winter</em> — wet shoes at the door, a kettle starting to murmur, and light the colour of honey pooling in the corners. Every object here exists to make that hour last longer.</p>
+</section>
+
+<section class="mood">
+  <div class="sec reveal" style="text-align:center">Mood — Candlelight · Cedar · Slow Evenings</div>
+  <div class="mood-grid reveal d1">
+    <div class="mcard mc1"><span class="cap">A single flame</span></div>
+    <div class="mcard mc2"><span class="cap">Warm cedar grain</span></div>
+    <div class="mcard mc3"><span class="cap">Clay &amp; honey tones</span></div>
+    <div class="mcard mc4"><span class="cap">The lit window</span></div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="alcove reveal">
+    <div class="a-visual">
+      <div class="halo"></div>
+      <svg class="glowpulse" width="190" height="260" viewBox="0 0 190 260" fill="none">
+        <defs><radialGradient id="g1" cx=".5" cy=".55" r=".6">
+          <stop offset="0" stop-color="#ffd596"/><stop offset=".6" stop-color="#df8a3c"/><stop offset="1" stop-color="#4a290e"/>
+        </radialGradient></defs>
+        <path d="M95 18 C140 18 164 64 164 124 C164 192 136 234 95 234 C54 234 26 192 26 124 C26 64 50 18 95 18Z" fill="url(#g1)"/>
+        <g stroke="#160d06" stroke-width="4" opacity=".8">
+          <path d="M95 18 C66 64 58 150 78 232"/><path d="M95 18 C124 64 132 150 112 232"/>
+          <path d="M30 100 Q95 134 160 100"/><path d="M28 150 Q95 182 162 150"/><path d="M38 196 Q95 224 152 196"/>
+        </g>
+        <ellipse cx="95" cy="240" rx="36" ry="8" fill="#241608"/>
+      </svg>
+    </div>
+    <div>
+      <div class="a-num">Object 01 — Lantern</div>
+      <h3>Ambra <em>Lantern</em></h3>
+      <p>A woven lattice grown in translucent amber PLA. Unlit, it is sculpture; lit, it throws a slow basket-weave of shadows across the ceiling — the pattern was tuned in CAD against a real bulb, eleven times, until the shadows fell like firelight.</p>
+      <div class="meta">
+        <div>Material<b>PLA Translucent Amber</b></div>
+        <div>Print time<b>14 h 50 m</b></div>
+        <div>Price<b>₹ 1,499</b></div>
+      </div>
+      <a class="view" href="product.html">View by lamplight</a>
+    </div>
+  </div>
+
+  <div class="alcove reveal">
+    <div class="a-visual">
+      <div class="halo" style="width:260px;height:260px"></div>
+      <svg class="glowpulse" width="220" height="180" viewBox="0 0 220 180" fill="none">
+        <defs><radialGradient id="g2" cx=".5" cy=".4" r=".7">
+          <stop offset="0" stop-color="#ffcf8e"/><stop offset=".6" stop-color="#c97a32"/><stop offset="1" stop-color="#3c220c"/>
+        </radialGradient></defs>
+        <path d="M110 30 C158 30 186 62 186 102 C186 138 154 158 110 158 C66 158 34 138 34 102 C34 62 62 30 110 30Z" fill="url(#g2)"/>
+        <g fill="#160d06" opacity=".85">
+          <circle cx="78" cy="74" r="7"/><circle cx="110" cy="64" r="7"/><circle cx="142" cy="74" r="7"/>
+          <circle cx="62" cy="104" r="7"/><circle cx="94" cy="98" r="7"/><circle cx="126" cy="98" r="7"/><circle cx="158" cy="104" r="7"/>
+          <circle cx="78" cy="130" r="7"/><circle cx="110" cy="136" r="7"/><circle cx="142" cy="130" r="7"/>
+        </g>
+        <ellipse cx="110" cy="164" rx="52" ry="9" fill="#241608"/>
+      </svg>
+    </div>
+    <div>
+      <div class="a-num">Object 02 — Tealight</div>
+      <h3>Ember <em>Keep</em></h3>
+      <p>A tealight vessel perforated like a starling murmuration — each opening positioned by a small script so no two units scatter light the same way. Holds a standard tealight at a safe wall offset, verified thermally.</p>
+      <div class="meta">
+        <div>Material<b>PETG Smoke Bronze</b></div>
+        <div>Print time<b>5 h 10 m</b></div>
+        <div>Price<b>₹ 749</b></div>
+      </div>
+      <a class="view" href="product.html">View by lamplight</a>
+    </div>
+  </div>
+
+  <div class="alcove reveal">
+    <div class="a-visual">
+      <div class="halo" style="width:300px;height:300px"></div>
+      <svg class="glowpulse" width="200" height="260" viewBox="0 0 200 260" fill="none">
+        <defs><radialGradient id="g3" cx=".5" cy=".42" r=".62">
+          <stop offset="0" stop-color="#ffd9a0"/><stop offset=".6" stop-color="#d98c3f"/><stop offset="1" stop-color="#42250d"/>
+        </radialGradient></defs>
+        <path d="M100 14 L172 56 L172 150 L100 192 L28 150 L28 56 Z" fill="url(#g3)"/>
+        <g stroke="#160d06" stroke-width="4" opacity=".8">
+          <path d="M100 14 L100 192"/><path d="M28 56 L172 150"/><path d="M172 56 L28 150"/>
+          <path d="M28 103 L172 103"/>
+        </g>
+        <path d="M100 192 L100 226" stroke="#241608" stroke-width="8"/>
+        <ellipse cx="100" cy="234" rx="40" ry="8" fill="#241608"/>
+      </svg>
+    </div>
+    <div>
+      <div class="a-num">Object 03 — Pendant</div>
+      <h3>Cabin <em>Pendant</em></h3>
+      <p>A faceted pendant shade that folds light the way a cabin roof folds snow. Prints as a single piece, no supports, and clips onto any standard fitting — engineering hidden inside the warmth.</p>
+      <div class="meta">
+        <div>Material<b>PLA Silk Caramel</b></div>
+        <div>Print time<b>9 h 25 m</b></div>
+        <div>Price<b>₹ 1,199</b></div>
+      </div>
+      <a class="view" href="product.html">View by lamplight</a>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="process-in">
+    <div class="sec reveal">The Making — Light as a Material</div>
+    <h2 class="reveal d1">We don't design these objects. We design the <em>shadows they cast.</em></h2>
+    <div class="steps">
+      <div class="stepc reveal">
+        <div class="k">01 — Shadow studies</div>
+        <h4>Candle, paper, camera</h4>
+        <p>Before CAD, each pattern is mocked in cut paper around a real flame and photographed at 1/8&nbsp;s — slow enough to see how the light wants to move.</p>
+      </div>
+      <div class="stepc reveal d1">
+        <div class="k">02 — Translucency tuning</div>
+        <h4>Wall thickness = brightness</h4>
+        <p>At 0.8&nbsp;mm amber PLA glows like honey; at 2.4&nbsp;mm it smoulders. Every shade in this room is a deliberate gradient between those two numbers.</p>
+      </div>
+      <div class="stepc reveal d2">
+        <div class="k">03 — The burn test</div>
+        <h4>Heat, verified</h4>
+        <p>Every flame-adjacent design runs a 4-hour thermal soak with a probe at the closest wall. Nothing ships warmer than 41&nbsp;°C. Cozy must also be safe.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lighttest">
+  <div class="sec reveal">Failed Experiment № 9 — Kept</div>
+  <p class="big reveal d1">The first Ambra glowed <em>too white.</em> We reprinted the same geometry in three ambers and lived with each for a week of evenings. The middle one made the room feel like a held breath. That's the one you can buy.</p>
+  <div class="demo reveal d2">
+    <div><div class="bulb b1"></div><div class="lbl">Candidate A<br>Too bright · rejected</div></div>
+    <div><div class="bulb b2"></div><div class="lbl">Candidate B<br>The held breath · chosen</div></div>
+    <div><div class="bulb b3"></div><div class="lbl">Candidate C<br>Too sleepy · rejected</div></div>
+  </div>
+</section>
+
+<a class="next" href="collection-cyberpunk.html">
+  <div class="k">Continue the exhibition — Room 03</div>
+  <h2>Volta · The Cyberpunk Collection</h2>
+  <span class="go">Jack into the neon ⟶</span>
+</a>
+
+<footer>
+  <span>FORMA — Hearth</span>
+  <a href="index.html">← Back to the entrance</a>
+</footer>
+
+<div class="mock-switch">
+  <span>Mockups</span>
+  <a href="index.html" title="Home">H</a>
+  <a href="collection-minimalist.html" title="Minimalist">1</a>
+  <a class="on" href="collection-cozy.html" title="Cozy House">2</a>
+  <a href="collection-cyberpunk.html" title="Cyberpunk">3</a>
+  <a href="collection-organic.html" title="Organic">4</a>
+  <a href="product.html" title="Product">P</a>
+  <a href="configurator.html" title="Configurator">C</a>
+  <a href="quote.html" title="Quote">Q</a>
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+// floating embers / dust
+const cv=document.getElementById('embers'),cx=cv.getContext('2d');let W,H;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}size();addEventListener('resize',size);
+const P=[];for(let i=0;i<70;i++)P.push({x:Math.random(),y:Math.random(),r:Math.random()*1.8+.5,s:Math.random()*.00035+.00008,o:Math.random()*.55+.15,ph:Math.random()*6.28,hot:Math.random()<.25});
+(function tick(t){cx.clearRect(0,0,W,H);
+  for(const p of P){p.y-=p.s;if(p.y<-.02){p.y=1.02;p.x=Math.random()}
+    const tw=.45+.55*Math.sin(t*.0012+p.ph);
+    const col=p.hot?`rgba(255,150,60,${p.o*tw})`:`rgba(232,184,120,${p.o*tw*.7})`;
+    cx.beginPath();cx.arc(p.x*W+Math.sin(t*.0005+p.ph)*18,p.y*H,p.r,0,6.28);cx.fillStyle=col;cx.fill()}
+  requestAnimationFrame(tick)})(0);
+</script>
+</body>
+</html>

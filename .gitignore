@@ -1,0 +1,11 @@
+# private business strategy — never commit
+3d-printing-business-plan.md
+
+# local scratch / moodboard captures
+Screenshot*.png
+
+# os noise
+.DS_Store
+
+# local claude settings
+.claude/settings.local.json

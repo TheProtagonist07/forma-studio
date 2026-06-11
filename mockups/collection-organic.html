@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TERRA — Organic Collection — FORMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Karla:wght@300;400;500&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --soil:#f3efe5; --soil2:#eae4d4; --moss:#5c6b45; --fern:#7a8b5e; --sage:#a8b07e;
+  --bark:#3d3a2c; --clay:#c47e54; --stone:#8b8674;
+  --line:#ddd6c2;
+  --serif:'Fraunces',serif; --sans:'Karla',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--soil);color:var(--bark);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--moss);color:var(--soil)}
+
+/* growth-like reveals: scale up from the root */
+.reveal{opacity:0;transform:translateY(40px) scale(.97);transform-origin:bottom center;transition:opacity 1.4s cubic-bezier(.22,1,.36,1),transform 1.4s cubic-bezier(.22,1,.36,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.18s}.reveal.d2{transition-delay:.36s}.reveal.d3{transition-delay:.54s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:30px 52px}
+.logo{font-family:var(--serif);font-size:1.25rem;letter-spacing:.32em;color:var(--bark);text-decoration:none}
+.logo em{color:var(--moss);font-style:normal}
+nav .links{display:flex;gap:42px}
+nav .links a{color:var(--stone);text-decoration:none;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase;transition:color .6s}
+nav .links a:hover{color:var(--moss)}
+nav .room-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;color:var(--stone)}
+@media(max-width:900px){nav .links{display:none}}
+
+/* hero — a living form */
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:120px 52px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;right:-18vw;top:-22vh;width:60vw;height:60vw;background:radial-gradient(circle,rgba(168,176,126,.32),transparent 65%);border-radius:50%}
+.hero::after{content:'';position:absolute;left:-14vw;bottom:-30vh;width:46vw;height:46vw;background:radial-gradient(circle,rgba(196,126,84,.16),transparent 65%);border-radius:50%}
+.kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.42em;color:var(--moss);text-transform:uppercase;margin-bottom:34px;display:flex;align-items:center;gap:16px}
+.kicker::before{content:'';width:44px;height:1px;background:var(--fern)}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,6.6vw,6rem);line-height:1.04;position:relative;z-index:2}
+.hero h1 em{font-style:italic;color:var(--moss)}
+.hero .sub{margin-top:36px;color:var(--stone);font-size:1.02rem;line-height:2;max-width:440px;position:relative;z-index:2}
+.hero-form{position:relative;z-index:2;display:flex;justify-content:center;align-items:center}
+.blob-wrap{position:relative;width:min(40vw,440px);aspect-ratio:1}
+.blob{position:absolute;inset:0;background:linear-gradient(145deg,#b3ba88,#6d7a4f 70%);border-radius:55% 45% 58% 42%/46% 58% 42% 54%;animation:bigMorph 11s ease-in-out infinite;box-shadow:30px 50px 90px rgba(61,58,44,.28),inset -24px -30px 60px rgba(40,46,24,.3),inset 18px 22px 44px rgba(255,255,245,.35)}
+@keyframes bigMorph{0%,100%{border-radius:55% 45% 58% 42%/46% 58% 42% 54%}25%{border-radius:46% 54% 42% 58%/56% 44% 58% 42%}50%{border-radius:60% 40% 52% 48%/44% 60% 40% 56%}75%{border-radius:44% 56% 60% 40%/58% 42% 56% 44%}}
+.blob.b2{inset:12%;background:linear-gradient(145deg,#e9e2cd,#c9c2a4 70%);animation-duration:9s;animation-delay:-3s;box-shadow:inset -16px -20px 40px rgba(61,58,44,.16),inset 12px 16px 32px rgba(255,255,248,.7)}
+.blob.b3{inset:30%;background:linear-gradient(145deg,#cf8a5d,#a05f38 75%);animation-duration:7s;animation-delay:-5s;box-shadow:inset -12px -16px 30px rgba(61,30,12,.3),inset 10px 12px 26px rgba(255,235,210,.4)}
+.hero-cap{position:absolute;bottom:-58px;left:50%;transform:translateX(-50%);font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;color:var(--stone);text-transform:uppercase;white-space:nowrap;line-height:2}
+@media(max-width:980px){.hero{grid-template-columns:1fr}.hero-form{margin-top:60px}}
+
+/* intro */
+.intro{max-width:780px;margin:0 auto;padding:22vh 32px 16vh;text-align:center}
+.sec{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:var(--moss);text-transform:uppercase;margin-bottom:48px}
+.intro p.big{font-family:var(--serif);font-size:clamp(1.5rem,2.7vw,2.25rem);line-height:1.72;font-weight:300}
+.intro p.big em{font-style:italic;color:var(--moss)}
+.vine{width:1px;height:110px;margin:10vh auto 0;background:linear-gradient(180deg,var(--fern),transparent);position:relative}
+.vine::before,.vine::after{content:'';position:absolute;width:26px;height:14px;border:1px solid var(--fern);border-width:1px 0 0 1px;border-radius:100% 0 0 0}
+.vine::before{left:1px;top:24%}
+.vine::after{right:1px;top:54%;transform:scaleX(-1)}
+
+/* gallery — specimens */
+.gallery{max-width:1240px;margin:0 auto;padding:0 52px 12vh}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:7vw;align-items:center;padding:12vh 0;border-top:1px solid var(--line)}
+.spec:nth-child(even) .s-visual{order:2}
+.s-visual{height:60vh;min-height:430px;border-radius:46% 54% 50% 50%/52% 48% 52% 48%;position:relative;display:flex;align-items:center;justify-content:center;background:linear-gradient(160deg,#fbf9f2,var(--soil2));box-shadow:0 36px 90px rgba(61,58,44,.16);overflow:hidden}
+.s-visual svg{position:relative;z-index:2;transition:transform 2s cubic-bezier(.22,1,.36,1)}
+.spec:hover .s-visual svg{transform:scale(1.05) rotate(-1.5deg)}
+.s-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.38em;color:var(--fern);text-transform:uppercase}
+.spec h3{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,3.4vw,3rem);margin:24px 0;color:var(--bark)}
+.spec h3 em{font-style:italic;color:var(--moss)}
+.spec p{color:var(--stone);line-height:2.05;font-size:.95rem;max-width:430px}
+.spec .meta{display:flex;gap:40px;margin-top:40px}
+.spec .meta div{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--stone);text-transform:uppercase;line-height:2.2}
+.spec .meta b{display:block;color:var(--bark);font-weight:500;font-size:.86rem;letter-spacing:.04em;font-family:var(--sans)}
+.spec .view{display:inline-block;margin-top:44px;color:var(--soil);background:var(--moss);text-decoration:none;font-size:.72rem;letter-spacing:.24em;text-transform:uppercase;border-radius:100px;padding:15px 32px;transition:all .6s}
+.spec .view:hover{background:var(--bark);border-radius:24px 100px 24px 100px}
+@media(max-width:900px){.spec{grid-template-columns:1fr}.spec:nth-child(even) .s-visual{order:0}}
+
+/* generative process band */
+.gen{background:linear-gradient(170deg,#28301d,#3b4427);color:#e8ecd8;padding:18vh 52px;position:relative;overflow:hidden}
+.gen::before{content:'';position:absolute;right:-10vw;top:-20vh;width:50vw;height:50vw;background:radial-gradient(circle,rgba(168,176,126,.16),transparent 65%);border-radius:50%}
+.gen-in{max-width:1180px;margin:0 auto;position:relative}
+.gen .sec{color:var(--sage)}
+.gen h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,4vw,3.4rem);max-width:760px;line-height:1.28}
+.gen h2 em{font-style:italic;color:var(--sage)}
+.growth{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;margin-top:10vh;align-items:end}
+.gstep{text-align:center}
+.gstep .pot{display:flex;align-items:flex-end;justify-content:center;height:190px}
+.gstep .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.3em;color:var(--sage);text-transform:uppercase;margin-top:28px;line-height:2}
+.gstep p{color:#b9c2a2;font-size:.8rem;line-height:1.9;margin-top:10px}
+@media(max-width:900px){.growth{grid-template-columns:1fr 1fr}}
+
+/* next room */
+.next{display:block;text-decoration:none;background:#0b0907;padding:15vh 52px;text-align:center;position:relative;overflow:hidden}
+.next::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:420px;height:280px;background:radial-gradient(ellipse,rgba(217,164,104,.18),transparent 65%)}
+.next .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:#d9a468;text-transform:uppercase;position:relative}
+.next h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.2rem,4.6vw,4rem);color:#ede4d7;margin-top:26px;position:relative}
+.next .go{display:inline-block;margin-top:32px;color:#d9a468;font-family:var(--mono);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;position:relative}
+
+footer{padding:58px 52px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--stone);text-transform:uppercase}
+footer a{color:var(--moss);text-decoration:none}
+
+.mock-switch{position:fixed;bottom:20px;right:20px;z-index:150;background:rgba(255,255,252,.92);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:10px;font-family:var(--mono);box-shadow:0 10px 34px rgba(61,58,44,.14)}
+.mock-switch span{font-size:.56rem;letter-spacing:.22em;color:var(--stone);text-transform:uppercase;margin-right:2px}
+.mock-switch a{color:var(--stone);text-decoration:none;font-size:.66rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s}
+.mock-switch a:hover,.mock-switch a.on{color:var(--soil);background:var(--moss)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">FORM<em>A</em></a>
+  <div class="links">
+    <a href="index.html#collections">Collections</a>
+    <a href="product.html">Objects</a>
+    <a href="configurator.html">Atelier</a>
+    <a href="quote.html">Custom</a>
+  </div>
+  <span class="room-tag">ROOM 04 / 04</span>
+</nav>
+
+<header class="hero">
+  <div>
+    <div class="kicker">The Organic Collection</div>
+    <h1>Terra.<br>Geometry that <em>grew here.</em></h1>
+    <p class="sub">Vessels and planters whose forms are borrowed from coral, seed pods, and river-worn stone — generated by algorithms that imitate growth, then resolved by hand until they feel inevitable.</p>
+  </div>
+  <div class="hero-form">
+    <div class="blob-wrap">
+      <div class="blob"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+      <div class="hero-cap">Form study № 31 — “Drupe”<br>three nested growth surfaces, live</div>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="sec reveal">The Intention</div>
+  <p class="big reveal d1">Nothing in nature is extruded. Surfaces swell, taper, and fold because <em>forces moved through them</em> — water, wind, the slow push of a seed. Terra asks the printer to behave less like a machine and more like <em>weather.</em></p>
+  <div class="vine reveal d2"></div>
+</section>
+
+<section class="gallery">
+  <div class="spec reveal">
+    <div class="s-visual">
+      <svg width="220" height="270" viewBox="0 0 220 270" fill="none">
+        <defs><linearGradient id="o1" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#d6ddb2"/><stop offset="1" stop-color="#778455"/>
+        </linearGradient></defs>
+        <path d="M110 16 C150 38 178 78 172 138 C168 186 148 232 110 252 C72 232 52 186 48 138 C42 78 70 38 110 16Z" fill="url(#o1)"/>
+        <g stroke="#3f4a2a" stroke-width="2" opacity=".5" fill="none">
+          <path d="M110 16 C96 80 92 170 104 250"/><path d="M110 16 C124 80 128 170 116 250"/>
+          <path d="M86 34 C64 100 62 180 96 246"/><path d="M134 34 C156 100 158 180 124 246"/>
+          <path d="M66 64 C50 130 56 200 90 240"/><path d="M154 64 C170 130 164 200 130 240"/>
+        </g>
+        <ellipse cx="110" cy="255" rx="34" ry="7" fill="#5a6440" opacity=".5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="s-num">Specimen 01 — Vessel</div>
+      <h3>Seed <em>Vault</em></h3>
+      <p>A vase ribbed like a drying seed pod. The ribs are generated by a script simulating differential growth, then thinned where fingers naturally land. No two production runs use the same seed value — each batch is its own harvest.</p>
+      <div class="meta">
+        <div>Material<b>PLA Matte Olive</b></div>
+        <div>Print time<b>12 h 40 m</b></div>
+        <div>Price<b>₹ 1,399</b></div>
+      </div>
+      <a class="view" href="product.html">Examine the specimen</a>
+    </div>
+  </div>
+
+  <div class="spec reveal">
+    <div class="s-visual">
+      <svg width="250" height="220" viewBox="0 0 250 220" fill="none">
+        <defs><linearGradient id="o2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#dfa276"/><stop offset="1" stop-color="#9c5d36"/>
+        </linearGradient></defs>
+        <path d="M125 28 C176 28 212 64 212 116 C212 164 176 196 125 196 C74 196 38 164 38 116 C38 64 74 28 125 28Z" fill="url(#o2)"/>
+        <g stroke="#5e3a1e" stroke-width="2" opacity=".45" fill="none">
+          <path d="M48 90 C90 112 160 112 202 90"/><path d="M42 124 C92 150 158 150 208 124"/>
+          <path d="M56 158 C98 182 152 182 194 158"/>
+        </g>
+        <ellipse cx="125" cy="62" rx="56" ry="16" fill="#7a4626"/>
+        <path d="M88 60 C100 44 150 44 162 60" stroke="#e8b88e" stroke-width="3" fill="none" opacity=".7"/>
+        <ellipse cx="125" cy="202" rx="44" ry="8" fill="#5a4636" opacity=".4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="s-num">Specimen 02 — Planter</div>
+      <h3>River <em>Stone</em></h3>
+      <p>A planter shaped by simulated erosion — the CAD model was "weathered" by a particle solver until it sat in the palm like something found, not made. Hidden drainage channel, terracotta-toned PLA with a stone-wash finish.</p>
+      <div class="meta">
+        <div>Material<b>PLA Terracotta</b></div>
+        <div>Print time<b>8 h 15 m</b></div>
+        <div>Price<b>₹ 999</b></div>
+      </div>
+      <a class="view" href="product.html">Examine the specimen</a>
+    </div>
+  </div>
+
+  <div class="spec reveal">
+    <div class="s-visual">
+      <svg width="240" height="250" viewBox="0 0 240 250" fill="none">
+        <defs><linearGradient id="o3" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#f1ead2"/><stop offset="1" stop-color="#bdb491"/>
+        </linearGradient></defs>
+        <g fill="url(#o3)" stroke="#8b8266" stroke-width="1.4">
+          <path d="M120 130 C96 96 96 56 120 22 C144 56 144 96 120 130Z"/>
+          <path d="M120 130 C152 110 188 112 214 138 C180 156 144 152 120 130Z"/>
+          <path d="M120 130 C88 110 52 112 26 138 C60 156 96 152 120 130Z"/>
+          <path d="M120 130 C140 162 138 200 114 228 C96 196 100 160 120 130Z"/>
+          <path d="M120 130 C100 162 102 200 126 228 C144 196 140 160 120 130Z"/>
+        </g>
+        <circle cx="120" cy="130" r="13" fill="#c47e54"/>
+      </svg>
+    </div>
+    <div>
+      <div class="s-num">Specimen 03 — Light</div>
+      <h3>Bloom <em>Sconce</em></h3>
+      <p>A wall light that opens like a flower over the bulb — five petals printed flat and folded along living hinges, blooming as you mount it. The hinge survived 1,000 open-close cycles in testing before we let it ship.</p>
+      <div class="meta">
+        <div>Material<b>PETG Bone White</b></div>
+        <div>Print time<b>6 h 50 m</b></div>
+        <div>Price<b>₹ 1,299</b></div>
+      </div>
+      <a class="view" href="product.html">Examine the specimen</a>
+    </div>
+  </div>
+</section>
+
+<section class="gen">
+  <div class="gen-in">
+    <div class="sec reveal">The Process — Designed by Growth</div>
+    <h2 class="reveal d1">We write small pieces of weather — algorithms that swell, erode and branch — then <em>edit what they grow.</em></h2>
+    <div class="growth">
+      <div class="gstep reveal">
+        <div class="pot">
+          <svg width="80" height="60" viewBox="0 0 80 60"><circle cx="40" cy="48" r="7" fill="#a8b07e"/></svg>
+        </div>
+        <div class="k">Gen 0 — Seed</div>
+        <p>A sphere and a rule: grow toward light, avoid yourself.</p>
+      </div>
+      <div class="gstep reveal d1">
+        <div class="pot">
+          <svg width="80" height="110" viewBox="0 0 80 110"><path d="M40 104 C40 70 36 56 40 34" stroke="#a8b07e" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="40" cy="28" r="9" fill="#a8b07e"/></svg>
+        </div>
+        <div class="k">Gen 40 — Stem</div>
+        <p>The solver finds a spine; we prune everything that can't print.</p>
+      </div>
+      <div class="gstep reveal d2">
+        <div class="pot">
+          <svg width="110" height="150" viewBox="0 0 110 150"><path d="M55 144 C55 100 50 84 55 56 M55 84 C38 70 32 56 30 40 M55 70 C72 58 78 44 80 30" stroke="#bdc795" stroke-width="5" fill="none" stroke-linecap="round"/><circle cx="55" cy="50" r="9" fill="#bdc795"/><circle cx="29" cy="34" r="7" fill="#bdc795"/><circle cx="81" cy="24" r="7" fill="#bdc795"/></svg>
+        </div>
+        <div class="k">Gen 200 — Branch</div>
+        <p>Branches thicken by simulated load — form following imaginary forces.</p>
+      </div>
+      <div class="gstep reveal d3">
+        <div class="pot">
+          <svg width="130" height="180" viewBox="0 0 130 180">
+            <path d="M65 174 C65 130 58 110 65 70 M65 110 C40 94 32 74 30 50 M65 92 C92 78 100 58 102 36" stroke="#d6ddb2" stroke-width="6" fill="none" stroke-linecap="round"/>
+            <path d="M65 70 C50 40 52 22 65 8 C78 22 80 40 65 70Z" fill="#d6ddb2"/>
+            <path d="M30 50 C18 34 18 22 26 12 C38 18 42 32 30 50Z" fill="#c2cc9a"/>
+            <path d="M102 36 C112 22 112 12 104 4 C92 10 90 22 102 36Z" fill="#c2cc9a"/>
+          </svg>
+        </div>
+        <div class="k">Gen 800 — Bloom</div>
+        <p>The survivor is rebuilt as clean parametric CAD — wild outside, engineered inside.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<a class="next" href="index.html#collections">
+  <div class="k">You have walked all four rooms</div>
+  <h2>Return to the entrance hall</h2>
+  <span class="go">Back to FORMA ⟶</span>
+</a>
+
+<footer>
+  <span>FORMA — Terra</span>
+  <a href="index.html">← Back to the entrance</a>
+</footer>
+
+<div class="mock-switch">
+  <span>Mockups</span>
+  <a href="index.html" title="Home">H</a>
+  <a href="collection-minimalist.html" title="Minimalist">1</a>
+  <a href="collection-cozy.html" title="Cozy House">2</a>
+  <a href="collection-cyberpunk.html" title="Cyberpunk">3</a>
+  <a class="on" href="collection-organic.html" title="Organic">4</a>
+  <a href="product.html" title="Product">P</a>
+  <a href="configurator.html" title="Configurator">C</a>
+  <a href="quote.html" title="Quote">Q</a>
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

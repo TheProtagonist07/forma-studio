@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KANSO — Minimalist Collection — FORMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Noto+Serif+JP:wght@200;300&family=JetBrains+Mono:wght@300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f7f5f1; --paper2:#efece6; --ink:#2a2620; --soft:#8c8478; --whisper:#b8b0a3;
+  --line:#e2ddd4; --shadow:rgba(120,108,88,.16);
+  --serif:'Cormorant Garamond',serif; --sans:'Inter',sans-serif; --jp:'Noto Serif JP',serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+
+/* every motion here is slow, deliberate */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 2s cubic-bezier(.23,1,.32,1),transform 2s cubic-bezier(.23,1,.32,1)}
+.reveal.in{opacity:1;transform:none}
+.reveal.d1{transition-delay:.3s}.reveal.d2{transition-delay:.6s}.reveal.d3{transition-delay:.9s}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:34px 56px;mix-blend-mode:multiply}
+.logo{font-family:var(--serif);font-size:1.2rem;letter-spacing:.34em;color:var(--ink);text-decoration:none}
+nav .links{display:flex;gap:44px}
+nav .links a{color:var(--soft);text-decoration:none;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;transition:color .8s}
+nav .links a:hover{color:var(--ink)}
+nav .room-tag{font-family:var(--mono);font-size:.62rem;letter-spacing:.3em;color:var(--whisper)}
+@media(max-width:900px){nav .links{display:none}}
+
+/* hero — vast emptiness */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;padding:0 24px}
+.hero .jp{font-family:var(--jp);font-weight:200;font-size:clamp(4rem,11vw,9rem);color:var(--paper2);position:absolute;top:50%;left:50%;transform:translate(-50%,-58%);letter-spacing:.2em;user-select:none;text-shadow:0 1px 0 #fff, 0 -1px 0 rgba(120,108,88,.12)}
+.hero .kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.5em;color:var(--whisper);text-transform:uppercase;margin-bottom:42px;opacity:0;animation:slowFade 3s ease 0.4s forwards}
+.hero h1{font-family:var(--serif);font-weight:300;font-size:clamp(3rem,7vw,6.4rem);line-height:1.06;letter-spacing:.02em;position:relative;opacity:0;animation:slowFade 3.4s ease .9s forwards}
+.hero h1 em{font-style:italic}
+.hero .sub{margin-top:48px;color:var(--soft);font-size:.95rem;line-height:2.3;max-width:420px;font-weight:300;opacity:0;animation:slowFade 3.4s ease 1.6s forwards}
+@keyframes slowFade{to{opacity:1}}
+.hero .cue{position:absolute;bottom:48px;font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;color:var(--whisper);text-transform:uppercase;opacity:0;animation:slowFade 3s ease 2.4s forwards}
+.hero .cue::after{content:'';display:block;width:1px;height:48px;background:var(--whisper);margin:16px auto 0;animation:stretch 3.4s ease-in-out infinite}
+@keyframes stretch{0%,100%{transform:scaleY(.4);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}}
+
+/* intro — the story */
+.intro{max-width:760px;margin:0 auto;padding:22vh 32px;text-align:center}
+.sec{font-family:var(--mono);font-size:.62rem;letter-spacing:.44em;color:var(--whisper);text-transform:uppercase;margin-bottom:54px}
+.intro p.big{font-family:var(--serif);font-size:clamp(1.5rem,2.7vw,2.2rem);line-height:1.75;font-weight:300}
+.intro p.big em{font-style:italic}
+.intro .rule{width:1px;height:90px;background:var(--line);margin:11vh auto 0}
+
+/* mood board */
+.mood{max-width:1180px;margin:0 auto;padding:0 56px 20vh}
+.mood-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:90px;gap:20px}
+.swatch{border-radius:2px;position:relative;overflow:hidden;box-shadow:0 18px 50px var(--shadow)}
+.swatch .cap{position:absolute;bottom:14px;left:16px;font-family:var(--mono);font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(42,38,32,.55)}
+.sw1{grid-column:1/6;grid-row:span 4;background:linear-gradient(160deg,#fdfcfa,#e7e2d8)}
+.sw1::after{content:'';position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:86px;height:150px;background:linear-gradient(180deg,#fff,#ddd7cb);border-radius:44px 44px 8px 8px;box-shadow:18px 30px 44px rgba(120,108,88,.3)}
+.sw2{grid-column:6/9;grid-row:span 2;background:#e9e5dd}
+.sw3{grid-column:9/13;grid-row:span 2;background:linear-gradient(120deg,#f2efe9,#dcd6ca)}
+.sw3::after{content:'間';position:absolute;right:22px;bottom:10px;font-family:'Noto Serif JP',serif;font-size:3.4rem;color:rgba(42,38,32,.08)}
+.sw4{grid-column:6/10;grid-row:span 2;background:linear-gradient(180deg,#fbfaf7,#eeebe4)}
+.sw4::after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(42,38,32,.14)}
+.sw5{grid-column:10/13;grid-row:span 2;background:#d9d3c7}
+@media(max-width:860px){.mood-grid{grid-template-columns:1fr 1fr}.mood-grid>*{grid-column:auto!important;grid-row:span 2!important}}
+
+/* gallery — objects with room to breathe */
+.gallery{max-width:1240px;margin:0 auto;padding:0 56px 10vh}
+.obj{display:grid;grid-template-columns:1fr 1fr;gap:8vw;align-items:center;padding:13vh 0;border-top:1px solid var(--line)}
+.obj:nth-child(even) .obj-visual{order:2}
+.obj-visual{height:62vh;min-height:420px;background:linear-gradient(165deg,#fbfaf7 0%,#edeae2 100%);display:flex;align-items:center;justify-content:center;position:relative;box-shadow:0 30px 80px var(--shadow);border-radius:2px;overflow:hidden}
+.obj-visual::after{content:'';position:absolute;left:10%;right:10%;bottom:14%;height:26px;background:radial-gradient(ellipse at center,rgba(120,108,88,.22),transparent 70%);filter:blur(6px)}
+.obj-visual svg{position:relative;z-index:2;transition:transform 2.4s cubic-bezier(.23,1,.32,1)}
+.obj:hover .obj-visual svg{transform:translateY(-10px)}
+.obj-num{font-family:var(--mono);font-size:.6rem;letter-spacing:.4em;color:var(--whisper);text-transform:uppercase}
+.obj h3{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,3.4vw,3rem);margin:26px 0;letter-spacing:.02em}
+.obj p{color:var(--soft);line-height:2.15;font-size:.92rem;max-width:400px}
+.obj .meta{display:flex;gap:44px;margin-top:44px}
+.obj .meta div{font-family:var(--mono);font-size:.6rem;letter-spacing:.2em;color:var(--whisper);text-transform:uppercase;line-height:2.2}
+.obj .meta b{display:block;color:var(--ink);font-weight:400;font-size:.84rem;font-family:var(--sans);letter-spacing:.04em}
+.obj .view{display:inline-block;margin-top:48px;color:var(--ink);text-decoration:none;font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:8px;transition:opacity .8s}
+.obj .view:hover{opacity:.45}
+@media(max-width:900px){.obj{grid-template-columns:1fr}.obj:nth-child(even) .obj-visual{order:0}}
+
+/* process — quiet honesty */
+.process{background:var(--paper2);padding:20vh 56px}
+.process-in{max-width:1180px;margin:0 auto}
+.process h2{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,4vw,3.4rem);max-width:680px;line-height:1.3}
+.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-top:11vh}
+.proc-card{background:var(--paper);padding:44px 34px;border-radius:2px;box-shadow:0 14px 44px rgba(120,108,88,.1)}
+.proc-card .ph{height:170px;display:flex;align-items:center;justify-content:center;margin-bottom:34px;background:linear-gradient(170deg,#fbfaf7,#efece5);border-radius:2px}
+.proc-card .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.32em;color:var(--whisper);text-transform:uppercase}
+.proc-card h4{font-family:var(--serif);font-weight:400;font-size:1.3rem;margin:16px 0 12px}
+.proc-card p{color:var(--soft);font-size:.8rem;line-height:2}
+@media(max-width:980px){.proc-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.proc-grid{grid-template-columns:1fr}}
+
+/* failures — kept on display */
+.fail{max-width:760px;margin:0 auto;padding:20vh 32px;text-align:center}
+.fail p.big{font-family:var(--serif);font-size:clamp(1.4rem,2.4vw,2rem);line-height:1.8}
+.fail .count{font-family:var(--serif);font-size:clamp(4rem,9vw,7.5rem);font-weight:300;margin:8vh 0 2vh;font-feature-settings:'lnum'}
+.fail .lbl{font-family:var(--mono);font-size:.62rem;letter-spacing:.4em;color:var(--whisper);text-transform:uppercase}
+
+/* next room */
+.next{display:block;text-decoration:none;background:radial-gradient(ellipse 70% 100% at 70% 50%,#3d2410,#1b1008 75%);padding:16vh 56px;text-align:center;position:relative;overflow:hidden}
+.next::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:300px;height:300px;background:radial-gradient(circle,rgba(255,170,80,.35),transparent 65%);filter:blur(10px);animation:nflick 4.5s ease-in-out infinite}
+@keyframes nflick{0%,100%{opacity:.7}50%{opacity:1}}
+.next .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.42em;color:#e0a566;text-transform:uppercase;position:relative}
+.next h2{font-family:var(--serif);font-weight:300;font-size:clamp(2.4rem,5vw,4.4rem);color:#f3dfc4;margin-top:28px;position:relative}
+.next .go{display:inline-block;margin-top:36px;color:#e0a566;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;position:relative}
+
+footer{padding:60px 56px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:.62rem;letter-spacing:.24em;color:var(--whisper);text-transform:uppercase}
+footer a{color:var(--soft);text-decoration:none}
+
+.mock-switch{position:fixed;bottom:20px;right:20px;z-index:150;background:rgba(255,255,255,.9);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:10px;font-family:var(--mono);box-shadow:0 8px 30px var(--shadow)}
+.mock-switch span{font-size:.56rem;letter-spacing:.22em;color:var(--whisper);text-transform:uppercase;margin-right:2px}
+.mock-switch a{color:var(--soft);text-decoration:none;font-size:.66rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s}
+.mock-switch a:hover,.mock-switch a.on{color:var(--paper);background:var(--ink)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">FORMA</a>
+  <div class="links">
+    <a href="index.html#collections">Collections</a>
+    <a href="product.html">Objects</a>
+    <a href="configurator.html">Atelier</a>
+    <a href="quote.html">Custom</a>
+  </div>
+  <span class="room-tag">ROOM 01 / 04</span>
+</nav>
+
+<header class="hero">
+  <div class="jp">簡素</div>
+  <div class="kicker">The Minimalist Collection</div>
+  <h1>Kanso.<br><em>What remains</em><br>when nothing is missing.</h1>
+  <p class="sub">Objects reduced to their quietest possible form. No ornament. No noise. Only proportion, shadow, and the space between things.</p>
+  <div class="cue">Walk slowly</div>
+</header>
+
+<section class="intro">
+  <div class="sec reveal">The Intention</div>
+  <p class="big reveal d1">This collection began with a question: <em>how much can be removed before an object stops being itself?</em> Each piece is the answer found after dozens of subtractions — a vessel pared to a single sweeping curve, a tray that is mostly emptiness, an incense holder that is barely there at all.</p>
+  <div class="rule reveal d2"></div>
+</section>
+
+<section class="mood">
+  <div class="sec reveal" style="text-align:center">Mood — Silence · Paper · Morning Light</div>
+  <div class="mood-grid reveal d1">
+    <div class="swatch sw1"><span class="cap">Soft north light</span></div>
+    <div class="swatch sw2"><span class="cap">Washi #E9E5DD</span></div>
+    <div class="swatch sw3"><span class="cap">Ma — negative space</span></div>
+    <div class="swatch sw4"><span class="cap">A single horizon</span></div>
+    <div class="swatch sw5"><span class="cap">River stone</span></div>
+  </div>
+</section>
+
+<section class="gallery">
+  <div class="obj reveal">
+    <div class="obj-visual">
+      <svg width="180" height="280" viewBox="0 0 180 280">
+        <defs><linearGradient id="m1" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#e3ddd1"/><stop offset=".45" stop-color="#fdfcfa"/><stop offset="1" stop-color="#d6cfc1"/>
+        </linearGradient></defs>
+        <path d="M72 8 C72 4 108 4 108 8 C108 30 100 44 102 64 C124 92 138 130 138 178 C138 234 116 272 90 272 C64 272 42 234 42 178 C42 130 56 92 78 64 C80 44 72 30 72 8 Z" fill="url(#m1)"/>
+        <ellipse cx="90" cy="9" rx="18" ry="4.5" fill="#c9c2b4"/>
+      </svg>
+    </div>
+    <div>
+      <div class="obj-num">Object 01 — Vessel</div>
+      <h3>Taper</h3>
+      <p>A vase built from one continuous curve, refined through nineteen CAD revisions until the silhouette held a single stem without asking for attention. Matte white, 0.12&nbsp;mm layers, sanded at the shoulder.</p>
+      <div class="meta">
+        <div>Material<b>PLA Matte — Chalk</b></div>
+        <div>Print time<b>11 h 20 m</b></div>
+        <div>Price<b>₹ 1,299</b></div>
+      </div>
+      <a class="view" href="product.html">View the object</a>
+    </div>
+  </div>
+
+  <div class="obj reveal">
+    <div class="obj-visual">
+      <svg width="260" height="160" viewBox="0 0 260 160">
+        <defs><linearGradient id="m2" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fbfaf7"/><stop offset="1" stop-color="#ddd7cb"/>
+        </linearGradient></defs>
+        <rect x="20" y="92" width="220" height="22" rx="4" fill="url(#m2)"/>
+        <rect x="20" y="92" width="220" height="4" rx="2" fill="#fff"/>
+        <circle cx="74" cy="70" r="20" fill="none" stroke="#c9c2b4" stroke-width="2"/>
+        <rect x="150" y="48" width="3" height="44" rx="1.5" fill="#b8b0a3"/>
+      </svg>
+    </div>
+    <div>
+      <div class="obj-num">Object 02 — Ritual</div>
+      <h3>Stillpoint</h3>
+      <p>An incense holder that is mostly absence — a low beam, a ring of shadow, a place for smoke to draw its own slow line through the room. The geometry is one extrusion and one boolean. It took a month to make it that simple.</p>
+      <div class="meta">
+        <div>Material<b>PLA Matte — Bone</b></div>
+        <div>Print time<b>2 h 05 m</b></div>
+        <div>Price<b>₹ 549</b></div>
+      </div>
+      <a class="view" href="product.html">View the object</a>
+    </div>
+  </div>
+
+  <div class="obj reveal">
+    <div class="obj-visual">
+      <svg width="240" height="200" viewBox="0 0 240 200">
+        <defs><linearGradient id="m3" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#fdfcfa"/><stop offset="1" stop-color="#d8d2c6"/>
+        </linearGradient></defs>
+        <path d="M30 140 L120 60 L210 140 Z" fill="url(#m3)"/>
+        <path d="M30 140 L210 140 L210 152 L30 152 Z" fill="#cfc8ba"/>
+        <circle cx="120" cy="118" r="9" fill="#efece5"/>
+      </svg>
+    </div>
+    <div>
+      <div class="obj-num">Object 03 — Desk</div>
+      <h3>Mono Tray</h3>
+      <p>A catch-all that imposes order by offering almost none: one plane, one fold, one shallow well for the thing you always lose. Designed to disappear into a desk and quietly run it.</p>
+      <div class="meta">
+        <div>Material<b>PLA Matte — Stone</b></div>
+        <div>Print time<b>4 h 30 m</b></div>
+        <div>Price<b>₹ 799</b></div>
+      </div>
+      <a class="view" href="product.html">View the object</a>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="process-in">
+    <div class="sec reveal">The Process — Subtraction as Method</div>
+    <h2 class="reveal d1">Every piece here was designed by taking away.</h2>
+    <div class="proc-grid">
+      <div class="proc-card reveal">
+        <div class="ph">
+          <svg width="120" height="110" viewBox="0 0 120 110" fill="none" stroke="#b8b0a3" stroke-width="1.4">
+            <path d="M40 8 C40 6 80 6 80 8 C80 22 74 30 76 42 C92 60 100 78 100 102 L20 102 C20 78 28 60 44 42 C46 30 40 22 40 8Z"/>
+            <path d="M30 70 Q60 80 90 70" stroke-dasharray="3 4"/>
+          </svg>
+        </div>
+        <div class="k">01 — Sketch</div>
+        <h4>Pencil &amp; tracing paper</h4>
+        <p>Forty silhouettes drawn over each other until one curve survived every overlay.</p>
+      </div>
+      <div class="proc-card reveal d1">
+        <div class="ph">
+          <svg width="120" height="110" viewBox="0 0 120 110" fill="none" stroke="#b8b0a3" stroke-width="1.2">
+            <path d="M60 8 L104 30 L104 80 L60 102 L16 80 L16 30 Z"/>
+            <path d="M60 8 L60 102 M16 30 L104 80 M104 30 L16 80" opacity=".5"/>
+            <circle cx="60" cy="55" r="3" fill="#b8b0a3"/>
+          </svg>
+        </div>
+        <div class="k">02 — CAD</div>
+        <h4>Parametric reduction</h4>
+        <p>Every dimension is a parameter. The model was tuned numerically — radius by radius — in Fusion&nbsp;360.</p>
+      </div>
+      <div class="proc-card reveal d2">
+        <div class="ph">
+          <svg width="120" height="110" viewBox="0 0 120 110" fill="none" stroke="#b8b0a3" stroke-width="1.4">
+            <rect x="26" y="86" width="68" height="6"/><rect x="32" y="74" width="56" height="6"/>
+            <rect x="38" y="62" width="44" height="6"/><rect x="44" y="50" width="32" height="6"/>
+            <rect x="50" y="38" width="20" height="6"/>
+          </svg>
+        </div>
+        <div class="k">03 — Prototype</div>
+        <h4>Seven generations</h4>
+        <p>Draft prints on the workhorse machine; each generation thinner, lighter, quieter than the last.</p>
+      </div>
+      <div class="proc-card reveal d3">
+        <div class="ph">
+          <svg width="120" height="110" viewBox="0 0 120 110" fill="none" stroke="#b8b0a3" stroke-width="1.4">
+            <circle cx="60" cy="55" r="38"/><path d="M60 17 L60 55 L86 70"/>
+          </svg>
+        </div>
+        <div class="k">04 — Finish</div>
+        <h4>Hand &amp; patience</h4>
+        <p>Wet-sanded at 400 then 800 grit. Inspected in raking light, where nothing can hide.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="fail">
+  <div class="sec reveal">The Failures, Kept</div>
+  <p class="big reveal d1">Between the first sketch and the final vessel there were misprints, collapsed overhangs, and proportions that simply felt wrong in the hand.</p>
+  <div class="count reveal d2">23</div>
+  <div class="lbl reveal d2">discarded iterations — each one necessary</div>
+</section>
+
+<a class="next" href="collection-cozy.html">
+  <div class="k">Continue the exhibition — Room 02</div>
+  <h2>Hearth · The Cozy House Collection</h2>
+  <span class="go">Step into the warmth ⟶</span>
+</a>
+
+<footer>
+  <span>FORMA — Kanso 簡素</span>
+  <a href="index.html">← Back to the entrance</a>
+</footer>
+
+<div class="mock-switch">
+  <span>Mockups</span>
+  <a href="index.html" title="Home">H</a>
+  <a class="on" href="collection-minimalist.html" title="Minimalist">1</a>
+  <a href="collection-cozy.html" title="Cozy House">2</a>
+  <a href="collection-cyberpunk.html" title="Cyberpunk">3</a>
+  <a href="collection-organic.html" title="Organic">4</a>
+  <a href="product.html" title="Product">P</a>
+  <a href="configurator.html" title="Configurator">C</a>
+  <a href="quote.html" title="Quote">Q</a>
+</div>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Atelier — Parametric Configurator — FORMA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300&family=Space+Grotesk:wght@300;400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0907; --bg2:#13100b; --bg3:#1a1510; --panel:#100d09;
+  --ink:#ede4d7; --muted:#9b8c79; --faint:#5e5446;
+  --amber:#d9a468; --amber-deep:#a8723c;
+  --line:rgba(217,164,104,.14); --line2:rgba(217,164,104,.28);
+  --serif:'Fraunces',serif; --sans:'Space Grotesk',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--amber);color:#0b0907}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:20px 40px;background:rgba(11,9,7,.88);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.logo{font-family:var(--serif);font-size:1.2rem;letter-spacing:.32em;color:var(--ink);text-decoration:none}
+.logo em{color:var(--amber);font-style:normal}
+nav .title{font-family:var(--mono);font-size:.64rem;letter-spacing:.3em;color:var(--faint);text-transform:uppercase}
+nav .title b{color:var(--amber);font-weight:400}
+nav .links{display:flex;gap:32px}
+nav .links a{color:var(--muted);text-decoration:none;font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;transition:color .3s}
+nav .links a:hover{color:var(--ink)}
+@media(max-width:900px){nav .links{display:none}}
+
+.shell{display:grid;grid-template-columns:1fr 440px;min-height:100vh;padding-top:66px}
+@media(max-width:1020px){.shell{grid-template-columns:1fr}.viewport{height:64vh;min-height:420px}}
+
+/* ===== viewport ===== */
+.viewport{position:relative;overflow:hidden;background:
+  radial-gradient(ellipse 55% 45% at 50% 50%,rgba(217,164,104,.10),transparent 68%),
+  linear-gradient(180deg,#0d0a08,#090705)}
+#lathe{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+#lathe:active{cursor:grabbing}
+.viewport .hud-tl{position:absolute;left:30px;top:26px;font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase;line-height:2.2;pointer-events:none}
+.viewport .hud-tl b{color:var(--amber);font-weight:400}
+.viewport .hud-br{position:absolute;right:30px;bottom:24px;font-family:var(--mono);font-size:.62rem;letter-spacing:.18em;color:var(--faint);text-transform:uppercase;text-align:right;line-height:2.2;pointer-events:none}
+.viewport .hud-br b{color:var(--amber);font-weight:400}
+.viewport .dim-h{position:absolute;left:30px;top:50%;transform:translateY(-50%);font-family:var(--mono);font-size:.66rem;color:var(--muted);letter-spacing:.14em;display:flex;flex-direction:column;align-items:center;gap:10px;pointer-events:none}
+.viewport .dim-h .bar{width:1px;height:140px;background:linear-gradient(180deg,transparent,var(--amber-deep) 20%,var(--amber-deep) 80%,transparent)}
+.viewport .hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;color:var(--faint);text-transform:uppercase;pointer-events:none}
+
+/* ===== panel ===== */
+.panel{background:var(--panel);border-left:1px solid var(--line);padding:38px 36px 110px;overflow-y:auto;max-height:calc(100vh - 66px);position:sticky;top:66px}
+@media(max-width:1020px){.panel{max-height:none;position:static;border-left:none;border-top:1px solid var(--line)}}
+.panel .kicker{font-family:var(--mono);font-size:.62rem;letter-spacing:.32em;color:var(--amber);text-transform:uppercase}
+.panel h1{font-family:var(--serif);font-weight:300;font-size:2rem;margin:14px 0 6px}
+.panel h1 em{font-style:italic;color:var(--amber)}
+.panel .base{font-family:var(--mono);font-size:.62rem;letter-spacing:.2em;color:var(--faint);text-transform:uppercase;margin-bottom:34px}
+
+.group{margin-bottom:30px}
+.group .head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12px}
+.group label{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.group output{font-family:var(--mono);font-size:.82rem;color:var(--amber)}
+input[type=range]{-webkit-appearance:none;width:100%;height:26px;background:transparent;cursor:pointer}
+input[type=range]::-webkit-slider-runnable-track{height:2px;background:linear-gradient(90deg,var(--amber) var(--fill,50%),rgba(217,164,104,.18) var(--fill,50%));border-radius:2px}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--bg);border:1.5px solid var(--amber);margin-top:-8px;transition:box-shadow .3s}
+input[type=range]:hover::-webkit-slider-thumb{box-shadow:0 0 16px rgba(217,164,104,.6)}
+input[type=range]::-moz-range-track{height:2px;background:rgba(217,164,104,.18);border-radius:2px}
+input[type=range]::-moz-range-progress{height:2px;background:var(--amber)}
+input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--bg);border:1.5px solid var(--amber)}
+.bounds{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.56rem;color:var(--faint);letter-spacing:.14em;margin-top:2px}
+
+.swatches{display:flex;gap:10px}
+.swatches button{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);cursor:pointer;transition:all .3s}
+.swatches button.on{box-shadow:0 0 0 1.5px var(--bg),0 0 0 3px var(--amber)}
+.mats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mat{background:var(--bg2);border:1px solid var(--line);padding:14px 16px;cursor:pointer;transition:all .3s;border-radius:4px}
+.mat:hover{border-color:var(--line2)}
+.mat.on{border-color:var(--amber);background:var(--bg3)}
+.mat .n{font-size:.8rem;letter-spacing:.06em}
+.mat .p{font-family:var(--mono);font-size:.6rem;color:var(--faint);margin-top:6px;letter-spacing:.1em}
+.mat.on .p{color:var(--amber)}
+
+/* build sheet */
+.sheet{margin-top:36px;border:1px solid var(--line);background:var(--bg2);border-radius:4px;overflow:hidden}
+.sheet .sh{padding:14px 20px;border-bottom:1px solid var(--line);font-family:var(--mono);font-size:.6rem;letter-spacing:.28em;color:var(--amber);text-transform:uppercase;display:flex;justify-content:space-between}
+.sheet .sh .live{color:#7ddb8a}
+.sheet .sh .live::before{content:'● ';animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.3}}
+.rows{padding:6px 0}
+.rowi{display:flex;justify-content:space-between;padding:11px 20px;font-size:.8rem}
+.rowi .k{color:var(--muted);letter-spacing:.08em}
+.rowi .v{font-family:var(--mono);color:var(--ink)}
+.rowi .v small{color:var(--faint)}
+.total{display:flex;justify-content:space-between;align-items:baseline;padding:20px;border-top:1px solid var(--line);background:rgba(217,164,104,.05)}
+.total .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.26em;color:var(--muted);text-transform:uppercase}
+.total .v{font-family:var(--serif);font-size:2.1rem;font-weight:300;color:var(--amber)}
+.btn-solid{display:block;width:100%;text-align:center;background:var(--amber);color:#0b0907;text-decoration:none;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;padding:18px;border-radius:100px;transition:all .4s;font-weight:500;border:none;cursor:pointer;font-family:var(--sans);margin-top:22px}
+.btn-solid:hover{box-shadow:0 0 48px rgba(217,164,104,.4)}
+.note{font-family:var(--mono);font-size:.6rem;color:var(--faint);letter-spacing:.14em;line-height:2;margin-top:16px;text-align:center;text-transform:uppercase}
+
+.mock-switch{position:fixed;bottom:20px;right:20px;z-index:150;background:rgba(15,12,9,.92);backdrop-filter:blur(12px);border:1px solid rgba(217,164,104,.25);border-radius:100px;padding:8px 14px;display:flex;align-items:center;gap:10px;font-family:var(--mono)}
+.mock-switch span{font-size:.56rem;letter-spacing:.22em;color:#7a6c58;text-transform:uppercase;margin-right:2px}
+.mock-switch a{color:#9b8c79;text-decoration:none;font-size:.66rem;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:all .3s}
+.mock-switch a:hover,.mock-switch a.on{color:#0b0907;background:#d9a468}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="index.html">FORM<em>A</em></a>
+  <span class="title">THE ATELIER — <b>PARAMETRIC CONFIGURATOR</b> — BASE: MERIDIAN VESSEL</span>
+  <div class="links">
+    <a href="index.html#collections">Collections</a>
+    <a href="product.html">Objects</a>
+    <a href="quote.html">Custom</a>
+  </div>
+</nav>
+
+<div class="shell">
+  <!-- VIEWPORT -->
+  <div class="viewport">
+    <canvas id="lathe"></canvas>
+    <div class="hud-tl">
+      engine: <b>forma.param v2.1</b><br>
+      geometry: <b>live — regenerating</b><br>
+      drag to rotate
+    </div>
+    <div class="dim-h"><span id="dimTop">240</span><div class="bar"></div><span>mm</span></div>
+    <div class="hud-br">
+      meridians: <b id="hudSegs">40</b><br>
+      est. layers: <b id="hudLayers">1500</b> @ 0.16 mm<br>
+      machine: <b>studio P1S</b>
+    </div>
+    <div class="hint">Every slider rewrites the geometry — like configuring a car, but the car is a vase</div>
+  </div>
+
+  <!-- PANEL -->
+  <aside class="panel">
+    <div class="kicker">Atelier / Custom Build</div>
+    <h1>Meridian, <em>your way.</em></h1>
+    <div class="base">base geometry № 07 · every unit printed to order</div>
+
+    <div class="group">
+      <div class="head"><label for="pH">Height</label><output id="oH">240 mm</output></div>
+      <input type="range" id="pH" min="120" max="320" value="240">
+      <div class="bounds"><span>120 MM</span><span>320 MM</span></div>
+    </div>
+
+    <div class="group">
+      <div class="head"><label for="pD">Diameter</label><output id="oD">116 mm</output></div>
+      <input type="range" id="pD" min="60" max="160" value="116">
+      <div class="bounds"><span>60 MM</span><span>160 MM</span></div>
+    </div>
+
+    <div class="group">
+      <div class="head"><label for="pS">Pattern density</label><output id="oS">40 meridians</output></div>
+      <input type="range" id="pS" min="16" max="64" step="2" value="40">
+      <div class="bounds"><span>SPARSE 16</span><span>DENSE 64</span></div>
+    </div>
+
+    <div class="group">
+      <div class="head"><label for="pW">Wall thickness</label><output id="oW">1.6 mm</output></div>
+      <input type="range" id="pW" min="12" max="30" value="16">
+      <div class="bounds"><span>1.2 MM · LIGHT</span><span>3.0 MM · HEAVY</span></div>
+    </div>
+
+    <div class="group">
+      <div class="head"><label>Colour</label><output id="oC">Chalk</output></div>
+      <div class="swatches">
+        <button class="on" data-c="Chalk" data-rgb="232,223,209" style="background:#e8dfd1"></button>
+        <button data-c="Espresso" data-rgb="62,48,34" style="background:#3e3022"></button>
+        <button data-c="Sandstone" data-rgb="185,138,85" style="background:#b98a55"></button>
+        <button data-c="Eucalyptus" data-rgb="110,122,100" style="background:#6e7a64"></button>
+        <button data-c="Terracotta" data-rgb="196,126,84" style="background:#c47e54"></button>
+      </div>
+    </div>
+
+    <div class="group">
+      <div class="head"><label>Material</label></div>
+      <div class="mats">
+        <div class="mat on" data-m="PLA Matte" data-kg="1200" data-den="1.24" data-rate="20">
+          <div class="n">PLA Matte</div><div class="p">₹1,200 / kg · signature finish</div>
+        </div>
+        <div class="mat" data-m="PLA Silk" data-kg="1500" data-den="1.24" data-rate="20">
+          <div class="n">PLA Silk</div><div class="p">₹1,500 / kg · lustrous</div>
+        </div>
+        <div class="mat" data-m="PETG" data-kg="1100" data-den="1.27" data-rate="18">
+          <div class="n">PETG</div><div class="p">₹1,100 / kg · durable</div>
+        </div>
+        <div class="mat" data-m="Wood-fill" data-kg="2200" data-den="1.15" data-rate="15">
+          <div class="n">Wood-fill</div><div class="p">₹2,200 / kg · sandable grain</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet">
+      <div class="sh"><span>Build sheet</span><span class="live">live</span></div>
+      <div class="rows">
+        <div class="rowi"><span class="k">Material consumption</span><span class="v" id="vGrams">212 g</span></div>
+        <div class="rowi"><span class="k">Shell volume</span><span class="v" id="vVol">171 cm³</span></div>
+        <div class="rowi"><span class="k">Print time</span><span class="v" id="vTime">9 h 40 m</span></div>
+        <div class="rowi"><span class="k">Energy</span><span class="v" id="vEnergy">1.2 kWh</span></div>
+        <div class="rowi"><span class="k">Ships</span><span class="v" id="vShip">in 4 days</span></div>
+      </div>
+      <div class="total"><span class="k">Your price · incl. GST</span><span class="v" id="vPrice">₹ 1,299</span></div>
+    </div>
+    <button class="btn-solid">Commission this build</button>
+    <div class="note">price &amp; print time recompute from real geometry —<br>filament + machine time + finishing, nothing hidden</div>
+  </aside>
+</div>
+
+<div class="mock-switch">
+  <span>Mockups</span>
+  <a href="index.html" title="Home">H</a>
+  <a href="collection-minimalist.html" title="Minimalist">1</a>
+  <a href="collection-cozy.html" title="Cozy House">2</a>
+  <a href="collection-cyberpunk.html" title="Cyberpunk">3</a>
+  <a href="collection-organic.html" title="Organic">4</a>
+  <a href="product.html" title="Product">P</a>
+  <a class="on" href="configurator.html" title="Configurator">C</a>
+  <a href="quote.html" title="Quote">Q</a>
+</div>
+
+<script>
+/* ================= parametric lathe engine ================= */
+const cv=document.getElementById('lathe'),cx=cv.getContext('2d');
+let W,H;
+function size(){const r=cv.parentElement.getBoundingClientRect();W=cv.width=r.width*devicePixelRatio;H=cv.height=r.height*devicePixelRatio}
+size();addEventListener('resize',size);
+
+// normalized profile (radius factor, t along height)
+const PROFILE=[[.55,0],[.53,.02],[.44,.07],[.39,.13],[.48,.2],[.72,.3],[.92,.42],[1,.55],[.97,.67],[.85,.79],[.68,.89],[.51,.96],[.44,1]];
+function profileAt(t){
+  for(let i=0;i<PROFILE.length-1;i++){const a=PROFILE[i],b=PROFILE[i+1];
+    if(t>=a[1]&&t<=b[1]){const f=(t-a[1])/(b[1]-a[1]||1);return a[0]+(b[0]-a[0])*f}}
+  return PROFILE.at(-1)[0];
+}
+
+// state
+const S={h:240,d:116,segs:40,wall:1.6,color:'Chalk',rgb:[232,223,209],
+         mat:'PLA Matte',kg:1200,den:1.24,rate:22};
+let rotY=.5,rotX=-.15,dragging=false,lx=0,ly=0;
+
+function draw(){
+  cx.clearRect(0,0,W,H);
+  const aspect=S.h/S.d; // shape proportions follow params
+  const maxDim=Math.min(W,H)*.34;
+  const sy=maxDim*Math.min(2.2,Math.max(.8,aspect/2.07))*1.05;
+  const sr=maxDim*.52*(S.d/116);
+  const cxp=W/2,cyp=H/2,RINGS=PROFILE.length;
+  function proj(x,y,z){
+    let X=x*Math.cos(rotY)-z*Math.sin(rotY),Z=x*Math.sin(rotY)+z*Math.cos(rotY);
+    let Y2=y*Math.cos(rotX)-Z*Math.sin(rotX),Z2=y*Math.sin(rotX)+Z*Math.cos(rotX);
+    const p=3/(3+Z2/maxDim);
+    return[cxp+X*p,cyp+Y2*p,Z2];
+  }
+  const grid=[];
+  for(let i=0;i<RINGS;i++){
+    const t=PROFILE[i][1],r=PROFILE[i][0]*sr,y=(t-.5)*2*sy*.5;
+    const ring=[];
+    for(let s=0;s<=S.segs;s++){const a=s/S.segs*Math.PI*2;ring.push(proj(Math.cos(a)*r,y,Math.sin(a)*r))}
+    grid.push(ring);
+  }
+  // shaded quads tinted by chosen color
+  const quads=[];
+  for(let i=0;i<RINGS-1;i++)for(let s=0;s<S.segs;s++){
+    const p=[grid[i][s],grid[i][s+1],grid[i+1][s+1],grid[i+1][s]];
+    quads.push({p,z:(p[0][2]+p[2][2])/2,s});
+  }
+  quads.sort((a,b)=>b.z-a.z);
+  const[cr,cg,cb]=S.rgb;
+  for(const q of quads){
+    const a=(q.s/S.segs)*Math.PI*2+rotY;
+    const lum=.22+.78*Math.max(0,Math.cos(a-.7));
+    cx.beginPath();cx.moveTo(q.p[0][0],q.p[0][1]);
+    for(let k=1;k<4;k++)cx.lineTo(q.p[k][0],q.p[k][1]);
+    cx.closePath();
+    cx.fillStyle=`rgb(${cr*lum|0},${cg*lum|0},${cb*lum|0})`;cx.fill();
+    cx.strokeStyle='rgba(11,9,7,.5)';cx.lineWidth=Math.max(.6,2.4-S.segs*.03)*devicePixelRatio;cx.stroke();
+  }
+  // shadow
+  const gy=cyp+sy*.62;
+  const grad=cx.createRadialGradient(cxp,gy,0,cxp,gy,sr*1.4);
+  grad.addColorStop(0,'rgba(217,164,104,.12)');grad.addColorStop(1,'transparent');
+  cx.fillStyle=grad;cx.beginPath();cx.ellipse(cxp,gy,sr*1.4,sr*.22,0,0,6.28);cx.fill();
+}
+(function loop(){if(!dragging)rotY+=.0035;draw();requestAnimationFrame(loop)})();
+cv.addEventListener('pointerdown',e=>{dragging=true;lx=e.clientX;ly=e.clientY;cv.setPointerCapture(e.pointerId)});
+cv.addEventListener('pointermove',e=>{if(!dragging)return;rotY+=(e.clientX-lx)*.008;rotX=Math.max(-.9,Math.min(.9,rotX+(e.clientY-ly)*.005));lx=e.clientX;ly=e.clientY});
+cv.addEventListener('pointerup',()=>dragging=false);
+
+/* ================= engineering + pricing model ================= */
+/* surface area of lathe ≈ Σ 2π·r̄·ds ; shell volume = area × wall (+ base disc) */
+function compute(){
+  let area=0; // mm²
+  for(let i=0;i<PROFILE.length-1;i++){
+    const a=PROFILE[i],b=PROFILE[i+1];
+    const r1=a[0]*S.d/2,r2=b[0]*S.d/2;
+    const y1=a[1]*S.h,y2=b[1]*S.h;
+    const ds=Math.hypot(r2-r1,y2-y1);
+    area+=2*Math.PI*((r1+r2)/2)*ds;
+  }
+  const ridgeFactor=1+(S.segs-16)*.012;            // ridges add surface
+  const baseVol=Math.PI*Math.pow(PROFILE.at(-1)[0]*S.d/2,2)*(S.wall*1.5);
+  const volMM3=area*ridgeFactor*S.wall+baseVol;     // mm³
+  const volCM3=volMM3/1000;
+  const grams=volCM3*S.den;
+  const hours=grams/S.rate*(1+(S.segs-40)*.004);    // denser pattern = slower
+  const kwh=hours*.12;
+  // COGS per studio cost model
+  const filament=grams/1000*S.kg;
+  const machine=hours*16, handling=40, post=20, pack=25;
+  const cogs=(filament+machine+handling+post+pack)*1.15;
+  let price=Math.max(cogs*2.5,449);
+  price=Math.round(price/50)*50-1;                  // ₹ x49 / x99 endings
+  const ship=hours<8?'in 3 days':hours<16?'in 4 days':'in 6 days';
+  return{grams,volCM3,hours,kwh,price,ship};
+}
+
+/* animated number displays */
+const disp={grams:212,vol:171,hours:9.67,kwh:1.2,price:1299};
+function fmtTime(h){const H=Math.floor(h),M=Math.round((h-H)*60);return`${H} h ${String(M).padStart(2,'0')} m`}
+function render(){
+  const t=compute();
+  for(const[k,target]of[['grams',t.grams],['vol',t.volCM3],['hours',t.hours],['kwh',t.kwh],['price',t.price]])
+    disp[k]+= (target-disp[k])*.18;
+  document.getElementById('vGrams').textContent=`${Math.round(disp.grams)} g`;
+  document.getElementById('vVol').textContent=`${Math.round(disp.vol)} cm³`;
+  document.getElementById('vTime').textContent=fmtTime(disp.hours);
+  document.getElementById('vEnergy').textContent=`${disp.kwh.toFixed(1)} kWh`;
+  document.getElementById('vShip').textContent=t.ship;
+  document.getElementById('vPrice').textContent=`₹ ${Math.round(disp.price).toLocaleString('en-IN')}`;
+  document.getElementById('hudLayers').textContent=Math.round(S.h/0.16).toLocaleString();
+  requestAnimationFrame(render);
+}
+render();
+
+/* controls */
+function bindRange(id,out,fmt,set){
+  const el=document.getElementById(id),o=document.getElementById(out);
+  const paint=()=>{const f=(el.value-el.min)/(el.max-el.min)*100;el.style.setProperty('--fill',f+'%')};
+  el.addEventListener('input',()=>{set(+el.value);o.textContent=fmt(+el.value);paint()});
+  paint();
+}
+bindRange('pH','oH',v=>`${v} mm`,v=>{S.h=v;document.getElementById('dimTop').textContent=v});
+bindRange('pD','oD',v=>`${v} mm`,v=>S.d=v);
+bindRange('pS','oS',v=>`${v} meridians`,v=>{S.segs=v;document.getElementById('hudSegs').textContent=v});
+bindRange('pW','oW',v=>`${(v/10).toFixed(1)} mm`,v=>S.wall=v/10);
+document.querySelectorAll('.swatches button').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.swatches button').forEach(x=>x.classList.remove('on'));
+  b.classList.add('on');S.color=b.dataset.c;S.rgb=b.dataset.rgb.split(',').map(Number);
+  document.getElementById('oC').textContent=S.color;
+});
+document.querySelectorAll('.mat').forEach(m=>m.onclick=()=>{
+  document.querySelectorAll('.mat').forEach(x=>x.classList.remove('on'));
+  m.classList.add('on');S.mat=m.dataset.m;S.kg=+m.dataset.kg;S.den=+m.dataset.den;S.rate=+m.dataset.rate;
+});
+</script>
+</body>
+</html>
