@@ -7,6 +7,10 @@
 </p>
 
 <p align="center">
+  <img src="https://img.shields.io/badge/stack-HTML%20%C2%B7%20CSS%20%C2%B7%20vanilla%20JS-d9a468" alt="Stack"> <img src="https://img.shields.io/badge/build%20step-none-success" alt="No build step"> <img src="https://img.shields.io/badge/license-All%20rights%20reserved-lightgrey" alt="License">
+</p>
+
+<p align="center">
   <i>A digital design museum for an original 3D design &amp; manufacturing studio — <b>not a store</b>.<br>
   Every object is designed from zero in parametric CAD and grown layer by layer in-studio (Lucknow, IN).</i>
 </p>
@@ -14,6 +18,12 @@
 ---
 
 ## The exhibition
+
+<p align="center">
+  <img src="assets/shot-atelier.png" width="49%" alt="The Atelier: parametric configurator with live 3D vessel and sliders">
+  <img src="assets/shot-volta.png" width="49%" alt="Room 03, Volta: neon cyberpunk collection">
+</p>
+<p align="center"><sub>Left: the Atelier configurator. Right: the Volta room. Same studio, completely different world.</sub></p>
 
 Four collection "rooms" that each transform the entire site — palette, typography, motion language, storytelling voice — plus a product gallery, a parametric configurator, and an instant-quote engine. Walk them live:
 
@@ -63,5 +73,5 @@ Global identity: near-black `#0b0907` · warm amber `#d9a468` · Fraunces (displ
 ---
 
 <p align="center">
-  <sub>© FORMA studio · Designed &amp; built by <a href="https://github.com/TheProtagonist07">TheProtagonist07</a> · All product geometry, designs and content are original work — please don't reuse without permission.</sub>
+  <sub>© FORMA studio · Designed &amp; built by <a href="https://github.com/TheProtagonist07">TheProtagonist07</a> · All product geometry, designs and content are original work — please don't reuse without permission. See <a href="LICENSE">LICENSE</a>.</sub>
 </p>
